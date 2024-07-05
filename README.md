@@ -61,6 +61,9 @@ streamlit run web_chat_ml.py
 - [x] ( If you enable *Optional Features* ) Gemini's feedback code
 
 
-## Screenshot
-[Screenshot.png](https://github.com/midairlogn/Gemini_WebUI_ML/blob/main/screenshot.png)
+## Screenshots
+
+![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot1.png)
+
+![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot2.png)
 
