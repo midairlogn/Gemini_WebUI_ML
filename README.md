@@ -62,5 +62,5 @@ streamlit run web_chat_ml.py
 
 
 ## Screenshot
-[Screenshot.png](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshot.png?token=GHSAT0AAAAAACUPGT3JKCOQOFQWQVCVCZ6OZUHSEUA)
+[Screenshot.png]([https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshot.png?token=GHSAT0AAAAAACUPGT3JKCOQOFQWQVCVCZ6OZUHSEUA](https://github.com/midairlogn/Gemini_WebUI_ML/blob/main/screenshot.png))
 
