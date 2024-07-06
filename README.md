@@ -41,8 +41,8 @@ streamlit run web_chat_ml.py
 
 
 ## Supported gemini models
-- [x] gemini-1.5-flash ( recommended )
-- [x] gemini-1.5-pro ( recommended )
+- [x] gemini-1.5-flash ( *recommended* )
+- [x] gemini-1.5-pro ( *recommended* )
 - [x] gemini-1.0-pro
 - [x] gemini-pro
 - [x] gemini-pro-vision
