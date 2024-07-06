@@ -1,7 +1,11 @@
 
 # ✨Gemini-WebUI-ML✨
 
-Original code : https://github.com/lgsurith/Gemini_Web_UI  
+<center>
+<img src="https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/Google-Gemini-AI-Logo.png" alt="Gemini">
+</center>
+
+Inspired by : https://github.com/lgsurith/Gemini_Web_UI  
 
 Edited and polished by [*Midairlogn*](https://github.com/midairlogn) .
 
@@ -11,7 +15,7 @@ Through the seamless integration of Gemini's API key, the chatbot boasts an unpa
 
 ## Preparation : Gemini's API key
 
-To replicate the project in local host you must obtain a gemini api key from the follwing website [here](https://ai.google.dev/) and include them in the .env as shown in the .env-example.    
+To replicate the project in local host you must obtain a gemini api key from the follwing website [here](https://ai.google.dev/) and include them in the `.env` as shown in the `.env-example` .    
     
 And make sure that Gemini is supported in your region .  
 
@@ -39,8 +43,8 @@ streamlit run web_chat_ml.py
 
 
 ## Supported gemini models
-- [x] gemini-1.5-flash
-- [x] gemini-1.5-pro
+- [x] gemini-1.5-flash ( recommended )
+- [x] gemini-1.5-pro ( recommended )
 - [x] gemini-1.0-pro
 - [x] gemini-pro
 - [x] gemini-pro-vision
