@@ -1,9 +1,7 @@
 
 # ✨Gemini-WebUI-ML✨
 
-<center>
-<img src="https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/Google-Gemini-AI-Logo.png" alt="Gemini">
-</center>
+![Gemini-logo](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/Google-Gemini-AI-Logo.png)
 
 Inspired by : https://github.com/lgsurith/Gemini_Web_UI  
 
