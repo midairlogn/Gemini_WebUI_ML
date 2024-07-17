@@ -11,6 +11,12 @@ This captivating Streamlit application harnesses the power of Gemini's API key t
 
 Through the seamless integration of Gemini's API key, the chatbot boasts an unparalleled knowledge base and the remarkable ability to engage in meaningful conversations. It effortlessly answers user queries, provides factual information, offers assistance, or simply engages in casual banter, mimicking human-like interactions.
 
+## Screenshots
+
+![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot1.png)
+
+![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot2.png)
+
 ## Preparation : Gemini's API key
 
 To replicate the project in local host you must obtain a gemini api key from the follwing website [here](https://ai.google.dev/) and include them in the `.env` as shown in the `.env-example` .    
@@ -38,14 +44,22 @@ streamlit run web_chat_ml.py
 ```
 #### On Windows , you can also 
 * run `launch.bat`
+### Customize your port    
+The default port is `8501` . However , you can customize your port by using the following command to launch :   
+```
+streamlit run web_chat_ml.py --server.port [INTEGER]
+```
+Replace `[INTEGER]` with the port you want this programme to run on .    
+> *Note that:* Don't use port 3000 which is reserved for internal development.    
 
 
 ## Supported gemini models
 - [x] gemini-1.5-flash ( *recommended* )
 - [x] gemini-1.5-pro ( *recommended* )
 - [x] gemini-1.0-pro
-- [x] gemini-pro
-- [x] gemini-pro-vision
+- [ ] gemini-pro
+- [ ] gemini-pro-vision
+> *Note that:*  As `gemini-pro` and `gemini-pro-vision` are not stable and can easily give the user an error message , they are removed from the model list .  
 
 ## Supported input
 - [x] text
@@ -61,11 +75,5 @@ streamlit run web_chat_ml.py
 - [ ] pdf 
 - [ ] others
 - [x] ( If you enable *Optional Features* ) Gemini's feedback code
-
-
-## Screenshots
-
-![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot1.png)
-
-![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot2.png)
+- [x] ( If you enable *Optional Features* ) usage metadata ( which includes `prompt_token_count` , `candidates_token_count` and `total_token_count`)
 

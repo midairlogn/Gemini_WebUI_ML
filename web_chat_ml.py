@@ -17,8 +17,10 @@ mldefult_initial_prompt = ''' :blue-background[ **Note that** ] :grey-background
     
     # :rainbow[ How can I help you today ? ]   '''
 
+mldefult_feedback_status = False
 mldefult_full_opt_status = False
 mldefult_text_opt_status = True
+mldefult_token_count_status = True
 
 #sets the avatar for user as well as the bot
 USER_AVATAR = "👤"
@@ -41,30 +43,35 @@ st.set_page_config(
 #side bar components
 with st.sidebar:
     st.image(image_path , width = 200)
-    select_model = st.sidebar.selectbox('Choose a Model' , ['gemini-1.5-flash' , 'gemini-1.5-pro' , 'gemini-1.0-pro' , 'gemini-pro' , 'gemini-pro-vision'] , key='select_model')
+    select_model = st.sidebar.selectbox('Choose a Model' , ['gemini-1.5-flash' , 'gemini-1.5-pro' , 'gemini-1.0-pro'] , key='select_model')
     if select_model == 'gemini-1.5-flash':
         model = genai.GenerativeModel('gemini-1.5-flash')
     if select_model == 'gemini-1.5-pro':
         model = genai.GenerativeModel('gemini-1.5-pro')
     if select_model == 'gemini-1.0-pro':
         model = genai.GenerativeModel('gemini-1.0-pro')
-    if select_model == 'gemini-pro':
-        model = genai.GenerativeModel('gemini-pro')
-    if select_model == 'gemini-pro-vision':
-        model_vision = genai.GenerativeModel('gemini-pro-vision')
 
 with st.sidebar:
     st.markdown(" :grey-background[ :rainbow[ *Optional Features* ] ] ")
-    full_opt = st.toggle(":violet[ Full feedback code ]",value = mldefult_full_opt_status )
-    if ( full_opt ):
-        st.markdown(" :green[ *Enabled !* ] ")
-    else :
-        st.markdown(" :red[ *Disabled !* ] ")
-    text_opt = st.toggle(":orange[ Text feedback code ]",value = mldefult_text_opt_status )
-    if ( text_opt ):
-        st.markdown(" :green[ *Enabled !* ] ")
-    else :
-        st.markdown(" :red[ *Disabled !* ] ")
+    feedback_status = st.checkbox(" *Show status* ",value= mldefult_feedback_status )
+    full_opt = st.toggle(":violet[ Full response code ]",value = mldefult_full_opt_status )
+    if ( feedback_status ):
+        if ( full_opt ):
+            st.markdown(" :green[ *Enabled !* ] ")
+        else :
+            st.markdown(" :red[ *Disabled !* ] ")
+    text_opt = st.toggle(":orange[ Text response code ]",value = mldefult_text_opt_status )
+    if ( feedback_status ):
+        if ( text_opt ):
+            st.markdown(" :green[ *Enabled !* ] ")
+        else :
+            st.markdown(" :red[ *Disabled !* ] ")
+    token_count = st.toggle(":blue[ Token count ]",value = mldefult_token_count_status )
+    if ( feedback_status ):
+        if ( token_count ):
+            st.markdown(" :green[ *Enabled !* ] ")
+        else :
+            st.markdown(" :red[ *Disabled !* ] ")
 
 #role swap after every prompt
 def role_swap(user_role):
@@ -98,10 +105,13 @@ if user_prompt:
     gemini_response = st.session_state.chat_session.send_message(user_prompt)
     with st.chat_message("assistant",avatar=BOT_AVATAR):
         if ( full_opt ):  
-            st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full feedback code : ] ")
+            st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
             st.code(gemini_response , language='markdown')
         if ( text_opt ):
-            st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :orange[ Text feedback code : ] ")
+            st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :orange[ Text response code : ] ")
             st.code(gemini_response.text , language='markdown')
+        if ( token_count ):
+            st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
+            st.code(gemini_response.usage_metadata , language='markdown')
         st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
         st.markdown(gemini_response.text)
