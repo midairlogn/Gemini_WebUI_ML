@@ -17,6 +17,11 @@ Through the seamless integration of Gemini's API key, the chatbot boasts an unpa
 
 ![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot2.png)
 
+## Some tips
+1.  Please clear chat history every time you exit this page or choose a new model to start a new conversation .    
+2.  If received any error message , please clear chat history to continue . DO NOT try to contine this dialogue .    
+3.  ( Optional ) You will receive the original markdown code from gemini if you Enable *Optional Features* on the sidebar . You can go to [dillinger](https://dillinger.io/) to view them .   
+4.  **DO NOT** translate the Gemini-WebUI-ML page . Translating that page will result in the unstability of the programme and you might receive an error message . If you accidentally translate that page . Please refresh .    
 ## Preparation : Gemini's API key
 
 To replicate the project in local host you must obtain a gemini api key from the follwing website [here](https://ai.google.dev/) and include them in the `.env` as shown in the `.env-example` .    
