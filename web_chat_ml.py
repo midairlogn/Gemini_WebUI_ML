@@ -14,6 +14,7 @@ mldefult_initial_prompt = ''' :blue-background[ **Note that** ] :grey-background
     - Please clear chat history every time you exit this page or choose a new model to start a new conversation .  
     - If received any error message , please clear chat history to continue . **DO NOT** try to contine this dialogue .   
     - :grey[ ( *Optional* ) ] You will receive the original markdown code from gemini if you **Enable** :grey-background[ :rainbow[ *Optional Features* ] ] on the sidebar . You can go to [dillinger](https://dillinger.io/ "dillinger") to view them .   
+    - **DO NOT** translate the Gemini-WebUI-ML page . Translating that page will result in the unstability of the programme and you might receive an error message . If you accidentally translate that page . Please refresh .    
     
     # :rainbow[ How can I help you today ? ]   '''
 
