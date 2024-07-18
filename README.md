@@ -50,13 +50,19 @@ streamlit run web_chat_ml.py
 #### On Windows , you can also 
 * run `launch.bat`
 #### Customize your port    
-The default port is `8501` . However , you can customize your port by using the following command to launch :   
+- The default port is `6951` . However , you can customize your port by using the following command to launch :   
 ```
 streamlit run web_chat_ml.py --server.port [INTEGER]
-```
+```    
 Replace `[INTEGER]` with the port you want this programme to run on .    
 > *Note that:* Don't use port 3000 which is reserved for internal development.    
-
+- Or alternatively you can edit `config.toml` , find this line :    
+```
+[server]
+port=6951
+```    
+Replace `6951` with any port you want this programme to run on .   
+> *Note that:* Don't use port 3000 which is reserved for internal development.    
 
 ## Supported gemini models
 - [x] gemini-1.5-flash ( *recommended* )

@@ -1,3 +1,5 @@
 [theme]
 base="dark"
 primaryColor="#3881f3"
+[server]
+port=6951
