@@ -22,9 +22,20 @@ Through the seamless integration of Gemini's API key, the chatbot boasts an unpa
 * If received any error message , please clear chat history to continue . DO NOT try to contine this dialogue .    
 * ( Optional ) You will receive the original markdown code from gemini if you Enable *Optional Features* on the sidebar . You can go to [dillinger](https://dillinger.io/) to view them .   
 * **DO NOT** translate the Gemini-WebUI-ML page . Translating that page will result in the unstability of the programme and you might receive an error message . If you accidentally translate that page . Please refresh .    
+     
+## Clone this repository   
+```
+git clone https://github.com/midairlogn/Gemini_WebUI_ML.git
+```   
+
 ## Preparation : Gemini's API key
 
 To replicate the project in local host you must obtain a gemini api key from the follwing website [here](https://ai.google.dev/) and include them in the `.env` as shown in the `.env-example` .    
+
+You can create and edit the `.env` file by :   
+```
+nano .env
+```   
     
 And make sure that Gemini is supported in your region .  
 
@@ -34,7 +45,7 @@ And make sure that Gemini is supported in your region .
 ## Set up ( Requirements ) 
 
 ```
-  pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 * google-generativeai
