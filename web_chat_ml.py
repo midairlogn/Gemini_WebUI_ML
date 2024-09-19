@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mldefult_initial_prompt = ''' :blue-background[ **Note that** ] :grey-background[ :rainbow[ **_Gemini WebUI ML_** ] ] ( [*Gemini_WebUI_ML - GitHub*](https://github.com/midairlogn/Gemini_WebUI_ML "Gemini_WebUI_ML - GitHub") ) is developed by :grey-background[ :rainbow[ *Midairlogn* ] ] ( [*Midairlogn - GitHub*](https://github.com/midairlogn "Midairlogn - GitHub") ) .   
+mldefault_initial_prompt = ''' :blue-background[ **Note that** ] :grey-background[ :rainbow[ **_Gemini WebUI ML_** ] ] ( [*Gemini_WebUI_ML - GitHub*](https://github.com/midairlogn/Gemini_WebUI_ML "Gemini_WebUI_ML - GitHub") ) is developed by :grey-background[ :rainbow[ *Midairlogn* ] ] ( [*Midairlogn - GitHub*](https://github.com/midairlogn "Midairlogn - GitHub") ) .   
     **DO NOT promise *100%* stability** . So please carefully read and practice the following tips :  
     - Please clear chat history every time you exit this page or choose a new model to start a new conversation .  
     - If received any error message , please clear chat history to continue . **DO NOT** try to contine this dialogue .   
@@ -18,10 +18,10 @@ mldefult_initial_prompt = ''' :blue-background[ **Note that** ] :grey-background
     
     # :rainbow[ How can I help you today ? ]   '''
 
-mldefult_feedback_status = False
-mldefult_full_opt_status = False
-mldefult_text_opt_status = True
-mldefult_token_count_status = True
+mldefault_feedback_status = False
+mldefault_full_opt_status = False
+mldefault_text_opt_status = True
+mldefault_token_count_status = True
 
 #sets the avatar for user as well as the bot
 USER_AVATAR = "👤"
@@ -54,20 +54,20 @@ with st.sidebar:
 
 with st.sidebar:
     st.markdown(" :grey-background[ :rainbow[ *Optional Features* ] ] ")
-    feedback_status = st.checkbox(" *Show status* ",value= mldefult_feedback_status )
-    full_opt = st.toggle(":violet[ Full response code ]",value = mldefult_full_opt_status )
+    feedback_status = st.checkbox(" *Show status* ",value= mldefault_feedback_status )
+    full_opt = st.toggle(":violet[ Full response code ]",value = mldefault_full_opt_status )
     if ( feedback_status ):
         if ( full_opt ):
             st.markdown(" :green[ *Enabled !* ] ")
         else :
             st.markdown(" :red[ *Disabled !* ] ")
-    text_opt = st.toggle(":orange[ Text response code ]",value = mldefult_text_opt_status )
+    text_opt = st.toggle(":orange[ Text response code ]",value = mldefault_text_opt_status )
     if ( feedback_status ):
         if ( text_opt ):
             st.markdown(" :green[ *Enabled !* ] ")
         else :
             st.markdown(" :red[ *Disabled !* ] ")
-    token_count = st.toggle(":blue[ Token count ]",value = mldefult_token_count_status )
+    token_count = st.toggle(":blue[ Token count ]",value = mldefault_token_count_status )
     if ( feedback_status ):
         if ( token_count ):
             st.markdown(" :green[ *Enabled !* ] ")
@@ -84,12 +84,12 @@ def role_swap(user_role):
 #initialising chat.
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=[])
-    initial_prompt = mldefult_initial_prompt
+    initial_prompt = mldefault_initial_prompt
     st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
 
 #clearing the chat history
 def clear_chat():
-    initial_prompt = mldefult_initial_prompt
+    initial_prompt = mldefault_initial_prompt
     st.session_state.chat_session = model.start_chat(history=[])
     st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
 st.sidebar.button('Clear Chat Histrory',on_click=clear_chat) 
