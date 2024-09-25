@@ -22,9 +22,11 @@ mldefault_feedback_status = False
 mldefault_full_opt_status = False
 mldefault_text_opt_status = True
 mldefault_token_count_status = True
-#ml_need_password = True
-#ml_password = os.getenv("CUSTOMER_PASSWORD")
-#ml_can_run = False
+
+ml_need_password = True
+ml_password = os.getenv("CUSTOMER_PASSWORD")
+ml_can_run = False
+input_password = ""
 
 #sets the avatar for user as well as the bot
 USER_AVATAR = "👤"
@@ -47,13 +49,8 @@ st.set_page_config(
 #side bar components
 with st.sidebar:
     st.image(image_path , width = 200)
-#    if (ml_need_password):
-#        input_password = st.text_input("Password:",type = "password" )
-#        if (input_password != ml_password):
-#            st.markdown(" :red[ *Password wrong !* ] ")
-#    else:
-#        st.markdown(" :green[ *Password correct !* ] ")
-#        ml_can_run = True
+    if (ml_need_password):
+        input_password = st.text_input("Password:",type = "password" )
     select_model = st.sidebar.selectbox('Choose a Model' , ['gemini-1.5-flash' , 'gemini-1.5-pro' , 'gemini-1.0-pro'] , key='select_model')
     if select_model == 'gemini-1.5-flash':
         model = genai.GenerativeModel('gemini-1.5-flash')
@@ -112,7 +109,12 @@ for message in st.session_state.chat_session.history:
 #main prompt logic.
 user_prompt = st.chat_input("Message Gemini")
 if user_prompt:
-#    if (ml_can_run):
+    if (ml_need_password):
+        if (input_password == ml_password):
+            ml_can_run = True
+    else :
+        ml_can_run = True
+    if (ml_can_run):
         st.chat_message("user",avatar=USER_AVATAR).markdown(user_prompt)
         gemini_response = st.session_state.chat_session.send_message(user_prompt)
         with st.chat_message("assistant",avatar=BOT_AVATAR):
@@ -127,3 +129,5 @@ if user_prompt:
                 st.code(gemini_response.usage_metadata , language='markdown')
             st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
             st.markdown(gemini_response.text)
+    else :
+        st.markdown(" ## :red[ Wrong password ! ] ")
