@@ -114,6 +114,7 @@ if user_prompt:
             ml_can_run = True
     else :
         ml_can_run = True
+
     if (ml_can_run):
         st.chat_message("user",avatar=USER_AVATAR).markdown(user_prompt)
         gemini_response = st.session_state.chat_session.send_message(user_prompt)
