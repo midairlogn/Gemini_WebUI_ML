@@ -6,8 +6,8 @@ import io
 import streamlit as st
 import google.generativeai as genai
 from dotenv import load_dotenv
-import webbrowser
-import time
+#import webbrowser
+#import time
 
 load_dotenv()
 
@@ -29,7 +29,7 @@ ml_need_password = True
 ml_password = os.getenv("CUSTOMER_PASSWORD")
 ml_can_run = False
 input_password = ""
-ml_redirect_url="https://buhuibaidu.me/?s=%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81%EF%BC%9F"
+#ml_redirect_url="https://buhuibaidu.me/?s=%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81%EF%BC%9F"
 
 #sets the avatar for user as well as the bot
 USER_AVATAR = "👤"
@@ -135,5 +135,5 @@ if user_prompt:
             st.markdown(gemini_response.text)
     else :
         st.markdown(" ## :red[ Wrong password ! ] ")
-        time.sleep(1)
-        webbrowser.open_new_tab(ml_redirect_url)
+        #time.sleep(1)
+        #webbrowser.open_new_tab(ml_redirect_url)
