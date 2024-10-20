@@ -31,6 +31,9 @@ ml_can_run = False
 input_password = ""
 #ml_redirect_url="https://buhuibaidu.me/?s=%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81%EF%BC%9F"
 
+if ( ml_password == "" ) : 
+    ml_need_password = False
+
 #sets the avatar for user as well as the bot
 USER_AVATAR = "👤"
 BOT_AVATAR = "✨"
