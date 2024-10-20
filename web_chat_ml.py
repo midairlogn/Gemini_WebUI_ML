@@ -53,7 +53,7 @@ st.set_page_config(
 with st.sidebar:
     st.image(image_path , width = 200)
     if (ml_need_password):
-        input_password = st.text_input("Password:",type = "password" )
+        input_password = st.text_input("Password",type = "password" )
     select_model = st.sidebar.selectbox('Choose a Model' , ['gemini-1.5-flash' , 'gemini-1.5-pro' , 'gemini-1.0-pro'] , key='select_model')
     if select_model == 'gemini-1.5-flash':
         model = genai.GenerativeModel('gemini-1.5-flash')
