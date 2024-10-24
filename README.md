@@ -52,6 +52,17 @@ pip install -r requirements.txt
 * streamlit
 * python-dotenv
 
+## Password     
+To ensure safety , password has now been added . If enabled , anyone wanting to access Gemini without the right password will only get the message `Wrong Password !` in response .    
+You can set your password in `.env` as is shown in `.env.example` :       
+```
+CUSTOMER_PASSWORD = "YOUR_PASSWORD"
+```    
+To disable it , write this in `.env` :
+```
+CUSTOMER_PASSWORD = ""
+```     
+
 ## Launch
 
 #### Just type :  
