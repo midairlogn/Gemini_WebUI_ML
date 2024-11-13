@@ -89,6 +89,7 @@ Replace `6951` with any port you want this programme to run on .
 ## Supported gemini models
 - [x] gemini-1.5-flash ( *recommended* )
 - [x] gemini-1.5-pro ( *recommended* )
+- [x] gemini-1.5-flash-8b
 - [x] gemini-1.0-pro
 - [ ] gemini-pro
 - [ ] gemini-pro-vision
