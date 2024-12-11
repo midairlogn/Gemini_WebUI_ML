@@ -59,14 +59,6 @@ with st.sidebar:
         input_password = st.text_input("Password",type = "password" )
     select_model = st.sidebar.selectbox('Choose a Model' , ['gemini-1.5-flash' , 'gemini-1.5-pro' , 'gemini-1.5-flash-8b' , 'gemini-1.0-pro'] , key='select_model')
     model = genai.GenerativeModel(select_model)
-#    if select_model == 'gemini-1.5-flash':
-#        model = genai.GenerativeModel('gemini-1.5-flash')
-#    if select_model == 'gemini-1.5-pro':
-#        model = genai.GenerativeModel('gemini-1.5-pro')
-#    if select_model == 'gemini-1.5-flash-8b':
-#        model = genai.GenerativeModel('gemini-1.5-flash-8b')
-#    if select_model == 'gemini-1.0-pro':
-#        model = genai.GenerativeModel('gemini-1.0-pro')
 
 with st.sidebar:
     st.markdown(" :grey-background[ :rainbow[ *Optional Features* ] ] ")
