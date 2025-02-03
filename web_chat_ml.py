@@ -20,6 +20,8 @@ mldefault_initial_prompt = ''' :blue-background[ **Note that** ] :grey-backgroun
     
     # :rainbow[ How can I help you today ? ]   '''
 
+ml_gemini_models = ['gemini-2.0-flash-exp' , 'gemini-1.5-flash' , 'gemini-1.5-pro' , 'gemini-1.5-flash-8b' , 'gemini-1.0-pro'] 
+
 mldefault_feedback_status = False
 mldefault_full_opt_status = False
 mldefault_text_opt_status = True
@@ -52,19 +54,22 @@ st.set_page_config(
     layout="centered"
 )
 
-#side bar components
+#side bar components : password
 with st.sidebar:
     st.image(image_path , width = 200)
     if (ml_need_password):
         input_password = st.text_input("Password",type = "password" )
-    select_model = st.sidebar.selectbox('Choose a Model' , ['gemini-2.0-flash-exp' , 'gemini-1.5-flash' , 'gemini-1.5-pro' , 'gemini-1.5-flash-8b' , 'gemini-1.0-pro'] , key='select_model')
+
+#side bar components : select model
+with st.sidebar:
+    select_model = st.sidebar.selectbox('Choose a Model' , ml_gemini_models , key='select_model')
     model = genai.GenerativeModel(select_model)
     if ( select_model == 'gemini-2.0-flash-exp' ):
         mldefault_full_opt_status = True
     else :
         mldefault_full_opt_status = False
 
-
+#side bar components : Optional Features
 with st.sidebar:
     st.markdown(" :grey-background[ :rainbow[ *Optional Features* ] ] ")
     feedback_status = st.checkbox(" *Show status* ",value= mldefault_feedback_status )
