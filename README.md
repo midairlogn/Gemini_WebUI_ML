@@ -86,6 +86,7 @@ Replace `6951` with any port you want this programme to run on .
 > *Note that:* Don't use port 3000 which is reserved for internal development.    
 
 ## Supported gemini models
+- [x] gemini-2.0-flash-exp ( *new* )
 - [x] gemini-1.5-flash ( *recommended* )
 - [x] gemini-1.5-pro ( *recommended* )
 - [x] gemini-1.5-flash-8b
