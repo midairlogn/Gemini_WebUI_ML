@@ -1,4 +1,8 @@
+# Developing process files
 .vs
+test_web_chat_ml.py
+test-launch.bat
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

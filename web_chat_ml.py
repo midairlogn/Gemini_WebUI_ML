@@ -112,6 +112,12 @@ for message in st.session_state.chat_session.history:
     with st.chat_message(role_swap(message.role),avatar=BOT_AVATAR if message.role == "model" else USER_AVATAR):
          st.markdown(message.parts[0].text)
 
+#Display all the Chat History  
+def ml_display_history():
+    st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :green[ All Chat History : ] ")
+    st.code(st.session_state)
+st.sidebar.button('Display Chat History',on_click=ml_display_history)
+
 #main prompt logic.
 user_prompt = st.chat_input("Message Gemini")
 if user_prompt:
