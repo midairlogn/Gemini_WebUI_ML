@@ -1,8 +1,8 @@
 # Edited and polished by [Midairlogn](https://github.com/midairlogn) .
 
-
 import os
 import io
+import json
 import streamlit as st
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -11,6 +11,32 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Read mlconfig.json
+def read_config_from_json(filepath):
+  """
+  read data from a certain .json file
+
+  Args:
+    filepath: filepath of JSON 
+
+  Returns:
+    JSON configure data
+  """
+  try:
+    with open(filepath, 'r', encoding='utf-8') as f:
+      configure_data = json.load(f)
+      return configure_data
+  except FileNotFoundError:
+    print(f"Error：File Not Found: {filepath}")
+    return None
+  except json.JSONDecodeError:
+    print(f"Error：Can Not Decode: {filepath}")
+    return None
+
+ml_config_file = "mlconfig.json"
+ml_config_data = read_config_from_json(ml_config_file)
+
+# Set initial prompt
 mldefault_initial_prompt = ''' :blue-background[ **Note that** ] :grey-background[ :rainbow[ **_Gemini WebUI ML_** ] ] ( [*Gemini_WebUI_ML - GitHub*](https://github.com/midairlogn/Gemini_WebUI_ML "Gemini_WebUI_ML - GitHub") ) is developed by :grey-background[ :rainbow[ *Midairlogn* ] ] ( [*Midairlogn - GitHub*](https://github.com/midairlogn "Midairlogn - GitHub") ) .   
     **DO NOT promise *100%* stability** . So please carefully read and practice the following tips :  
     - Please clear chat history every time you exit this page or choose a new model to start a new conversation .  
@@ -20,14 +46,17 @@ mldefault_initial_prompt = ''' :blue-background[ **Note that** ] :grey-backgroun
     
     # :rainbow[ How can I help you today ? ]   '''
 
-ml_gemini_models = ['gemini-2.0-flash-exp' , 'gemini-1.5-flash' , 'gemini-1.5-pro' , 'gemini-1.5-flash-8b' , 'gemini-1.0-pro'] 
+# Set gemini models
+ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
 
-mldefault_feedback_status = False
-mldefault_full_opt_status = False
-mldefault_text_opt_status = True
-mldefault_token_count_status = True
+# Set optional features
+mldefault_feedback_status =  ml_config_data.get("application_data", {}).get("mldefault_feedback_status")
+mldefault_full_opt_status = ml_config_data.get("application_data", {}).get("mldefault_full_opt_status")
+mldefault_text_opt_status = ml_config_data.get("application_data", {}).get("mldefault_text_opt_status")
+mldefault_token_count_status = ml_config_data.get("application_data", {}).get("mldefault_token_count_status")
 
-ml_need_password = True
+# Set password
+ml_need_password = ml_config_data.get("application_data", {}).get("ml_need_password")
 ml_password = os.getenv("CUSTOMER_PASSWORD")
 ml_can_run = False
 input_password = ""
@@ -37,9 +66,9 @@ if ( ml_password == "" ) :
     ml_need_password = False
 
 #sets the avatar for user as well as the bot
-USER_AVATAR = "👤"
-BOT_AVATAR = "✨"
-image_path = "Google-Gemini-AI-Logo.png"
+USER_AVATAR = ml_config_data.get("application_data", {}).get("USER_AVATAR")
+BOT_AVATAR = ml_config_data.get("application_data", {}).get("BOT_AVATAR")
+image_path = ml_config_data.get("application_data", {}).get("image_path")
 
 
 #private key for gemini.

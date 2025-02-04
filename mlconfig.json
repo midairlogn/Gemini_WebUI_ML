@@ -1,0 +1,29 @@
+{
+  "application_name": "Gemini_WebUI_ML",
+  "version": "3.0.0",
+  "author": "Midairlogn",
+  "project_URL": "https://github.com/midairlogn/Gemini_WebUI_ML",
+  "database": {
+    "host": "0.0.0.0",
+    "port": 6951,
+    "username": "user",
+    "password": "password"
+  },
+  "application_data": {
+	  "ml_gemini_models": [
+	  "gemini-2.0-flash-exp" ,
+	  "gemini-1.5-flash" ,
+	  "gemini-1.5-pro" ,
+	  "gemini-1.5-flash-8b" ,
+	  "gemini-1.0-pro"
+	  ],
+	  "mldefault_feedback_status": false,
+	  "mldefault_full_opt_status": false,
+	  "mldefault_text_opt_status": true,
+	  "mldefault_token_count_status": true,
+	  "ml_need_password": true,
+	  "USER_AVATAR": "👤",
+	  "BOT_AVATAR": "✨",
+	  "image_path": "Google-Gemini-AI-Logo.png"
+  }
+}
