@@ -145,7 +145,8 @@ def edit_system_instruction():
             st.session_state.ml_system_instruction = ml_input_system_instruction
             model = genai.GenerativeModel(model_name = select_model, system_instruction=st.session_state.ml_system_instruction)
         else :
-            st.session_state.ml_system_instruction = ml_config_data.get("application_data", {}).get("ml_default_system_instuction") # Initialize session state
+            st.session_state.ml_system_instruction = ml_config_data.get("application_data", {}).get("ml_default_system_instuction") 
+            model = genai.GenerativeModel(model_name = select_model)
         st.rerun()
 
 with st.sidebar:
