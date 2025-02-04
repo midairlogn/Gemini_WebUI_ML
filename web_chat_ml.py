@@ -83,11 +83,12 @@ st.set_page_config(
     layout="centered"
 )
 
+#side bar components : Gemini Image
+st.sidebar.image(image_path , width = 200)
+
 #side bar components : password
-with st.sidebar:
-    st.image(image_path , width = 200)
-    if (ml_need_password):
-        input_password = st.text_input("Password",type = "password" )
+if (ml_need_password):
+    input_password = st.sidebar.text_input("Password",type = "password" )
 
 #side bar components : select model
 with st.sidebar:
@@ -151,6 +152,10 @@ def ml_display_history():
     st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :green[ All Chat History : ] ")
     st.code(st.session_state)
 st.sidebar.button('Display Chat History',on_click=ml_display_history)
+
+#side bar components : Version
+ml_application_version = ml_config_data.get("version")
+st.sidebar.markdown(":grey[*Version: "+ml_application_version+"*]")
 
 #main prompt logic.
 user_prompt = st.chat_input("Message Gemini")
