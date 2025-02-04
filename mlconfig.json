@@ -23,7 +23,7 @@
 	  "mldefault_text_opt_status": true,
 	  "mldefault_token_count_status": true,
 	  "ml_need_password": true,
-	  "ml_default_system_instuction": "Default ML",
+	  "ml_default_system_instuction": "",
 	  "USER_AVATAR": "👤",
 	  "BOT_AVATAR": "✨",
 	  "image_path": "Google-Gemini-AI-Logo.png"
