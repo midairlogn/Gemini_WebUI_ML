@@ -111,7 +111,7 @@ with st.sidebar:
         mldefault_full_opt_status = True
     else :
         mldefault_full_opt_status = False
-clear_chat()
+st.rerun()
 
 #side bar components : Optional Features
 with st.sidebar:
