@@ -146,7 +146,7 @@ def edit_system_instruction():
     else: 
         st.code("[The system instruction is empty]")
     ml_input_system_instruction = st.text_input("Edit System Instruction:")
-    if st.button("Clear/Submit"):
+    if st.button("Submit and Clear Chat History"):
         if ml_input_system_instruction:
             st.session_state.ml_system_instruction = ml_input_system_instruction
             model = genai.GenerativeModel(model_name = select_model, system_instruction=st.session_state.ml_system_instruction)
@@ -176,16 +176,16 @@ if "chat_session" not in st.session_state:
 #clearing the chat history
 st.sidebar.button('Clear Chat Histrory',on_click=clear_chat) 
 
-#displays the history accordingly
-for message in st.session_state.chat_session.history:
-    with st.chat_message(role_swap(message.role),avatar=BOT_AVATAR if message.role == "model" else USER_AVATAR):
-         st.markdown(message.parts[0].text)
-
 #Display all the Chat History  
 def ml_display_history():
     st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :green[ All Chat History : ] ")
     st.code(st.session_state.chat_session)
 st.sidebar.button('Display Chat History',on_click=ml_display_history)
+
+#displays the history accordingly
+for message in st.session_state.chat_session.history:
+    with st.chat_message(role_swap(message.role),avatar=BOT_AVATAR if message.role == "model" else USER_AVATAR):
+         st.markdown(message.parts[0].text)
 
 #side bar components : Version
 ml_application_version = ml_config_data.get("version")
