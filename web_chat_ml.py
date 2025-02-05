@@ -80,6 +80,11 @@ image_path = ml_config_data.get("application_data", {}).get("image_path")
 private_key = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=private_key)
 
+#function: clearing the chat history
+def clear_chat():
+    initial_prompt = mldefault_initial_prompt
+    st.session_state.chat_session = model.start_chat(history=[])
+    st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
 
 #conifgs the bar 
 st.set_page_config(
@@ -106,6 +111,7 @@ with st.sidebar:
         mldefault_full_opt_status = True
     else :
         mldefault_full_opt_status = False
+clear_chat()
 
 #side bar components : Optional Features
 with st.sidebar:
@@ -145,7 +151,7 @@ def edit_system_instruction():
             st.session_state.ml_system_instruction = ml_input_system_instruction
             model = genai.GenerativeModel(model_name = select_model, system_instruction=st.session_state.ml_system_instruction)
         else :
-            st.session_state.ml_system_instruction = ml_config_data.get("application_data", {}).get("ml_default_system_instuction") 
+            st.session_state.ml_system_instruction = "" 
             model = genai.GenerativeModel(model_name = select_model)
         st.rerun()
 
@@ -168,10 +174,6 @@ if "chat_session" not in st.session_state:
     st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
 
 #clearing the chat history
-def clear_chat():
-    initial_prompt = mldefault_initial_prompt
-    st.session_state.chat_session = model.start_chat(history=[])
-    st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
 st.sidebar.button('Clear Chat Histrory',on_click=clear_chat) 
 
 #displays the history accordingly
