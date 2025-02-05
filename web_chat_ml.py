@@ -111,7 +111,10 @@ with st.sidebar:
         mldefault_full_opt_status = True
     else :
         mldefault_full_opt_status = False
-st.rerun()
+if st.session_state.ml_system_instruction:
+        model = genai.GenerativeModel(model_name = select_model, system_instruction=st.session_state.ml_system_instruction)
+    else: 
+        model = genai.GenerativeModel(model_name = select_model)
 
 #side bar components : Optional Features
 with st.sidebar:
