@@ -165,11 +165,11 @@ if "chat_session" not in st.session_state:
 
 #Display all the Chat History 
 @st.dialog("All Chat History", width="large") 
-def ml_display_history():
+def ml_display_all_history_popup():
     st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :green[ All Chat History : ] ")
     st.code(st.session_state.chat_session)
 
-st.sidebar.button('Display Chat History',on_click=ml_display_history)
+st.sidebar.button('Display Chat History',on_click=ml_display_all_history_popup)
 
 #function: clearing the chat history
 def clear_chat():
@@ -181,9 +181,12 @@ def clear_chat():
 st.sidebar.button('Clear Chat Histrory',on_click=clear_chat) 
 
 #displays the history accordingly
-for message in st.session_state.chat_session.history:
-    with st.chat_message(role_swap(message.role),avatar=BOT_AVATAR if message.role == "model" else USER_AVATAR):
-         st.markdown(message.parts[0].text)
+def ml_display_history():
+    for message in st.session_state.chat_session.history:
+        with st.chat_message(role_swap(message.role),avatar=BOT_AVATAR if message.role == "model" else USER_AVATAR):
+            st.markdown(message.parts[0].text)
+
+ml_display_history()
 
 #side bar components : Version
 ml_application_version = ml_config_data.get("version")
