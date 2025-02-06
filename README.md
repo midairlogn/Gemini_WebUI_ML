@@ -89,10 +89,11 @@ Replace `6951` with any port you want this programme to run on .
 - [x] gemini-1.5-pro ( *recommended* )
 - [x] gemini-1.5-flash-8b
 - [x] gemini-1.0-pro
+- [x] And many more ( explore for yourself )
 > *Note that:*  You can add other models by editing `mlconfig.json`: `"application_data"`: `"ml_gemini_models"`    
 
 ## Supported input
-- [x] text
+- [x] text ( including *System Instructions* )
 - [ ] image
 - [ ] video
 - [ ] pdf 
