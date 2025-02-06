@@ -133,12 +133,12 @@ with st.sidebar:
 @st.dialog("System Instruction")
 def edit_system_instruction():
     global model
-    st.markdown("Current System Instruction:")
+    st.markdown("Current System Instruction :")
     if (st.session_state.ml_system_instruction): 
         st.code(st.session_state.ml_system_instruction)
     else: 
         st.code("[The system instruction is empty]")
-    ml_input_system_instruction = st.text_input("Edit System Instruction:")
+    ml_input_system_instruction = st.text_input("Edit System Instruction :")
     if st.button('Submit and Clear Chat History'):
         if ml_input_system_instruction:
             st.session_state.ml_system_instruction = ml_input_system_instruction
@@ -168,6 +168,11 @@ if "chat_session" not in st.session_state:
 def ml_display_all_history_popup():
     st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Overview : ] ")
     st.code(st.session_state.chat_session)
+    st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ System Instruction : ] ")
+    if (st.session_state.ml_system_instruction): 
+        st.code(st.session_state.ml_system_instruction)
+    else: 
+        st.code("[The system instruction is empty]")
     st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown Code* ) ] ] ")
     ml_display_history(False)
 
