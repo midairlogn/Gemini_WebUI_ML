@@ -80,12 +80,6 @@ image_path = ml_config_data.get("application_data", {}).get("image_path")
 private_key = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=private_key)
 
-#function: clearing the chat history
-def clear_chat():
-    initial_prompt = mldefault_initial_prompt
-    st.session_state.chat_session = model.start_chat(history=[])
-    st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
-
 #conifgs the bar 
 st.set_page_config(
     page_title = "Gemini WebUI ML",
@@ -169,16 +163,22 @@ if "chat_session" not in st.session_state:
     initial_prompt = mldefault_initial_prompt
     st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
 
-#clearing the chat history
-st.sidebar.button('Clear Chat Histrory',on_click=clear_chat) 
-
 #Display all the Chat History 
-#@st.dialog("All Chat History") 
+@st.dialog("All Chat History", width="large") 
 def ml_display_history():
     st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :green[ All Chat History : ] ")
     st.code(st.session_state.chat_session)
 
 st.sidebar.button('Display Chat History',on_click=ml_display_history)
+
+#function: clearing the chat history
+def clear_chat():
+    initial_prompt = mldefault_initial_prompt
+    st.session_state.chat_session = model.start_chat(history=[])
+    st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
+
+#clearing the chat history
+st.sidebar.button('Clear Chat Histrory',on_click=clear_chat) 
 
 #displays the history accordingly
 for message in st.session_state.chat_session.history:
