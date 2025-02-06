@@ -148,7 +148,7 @@ def edit_system_instruction():
             model = genai.GenerativeModel(model_name = select_model)
         st.rerun()
 
-st.sidebar.button('System Instruction',on_click=edit_system_instruction)
+st.sidebar.button('System Instruction', on_click=edit_system_instruction)
 
 #role swap after every prompt
 def role_swap(user_role):
@@ -176,7 +176,7 @@ def ml_display_all_history_popup():
     st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown Code* ) ] ] ")
     ml_display_history(False)
 
-st.sidebar.button('Display Chat History',on_click=ml_display_all_history_popup)
+st.sidebar.button('Display Chat History', on_click=ml_display_all_history_popup)
 
 #function: clearing the chat history
 def clear_chat():
@@ -185,7 +185,7 @@ def clear_chat():
     st.chat_message("assistant" , avatar = BOT_AVATAR).markdown(initial_prompt)
 
 #clearing the chat history
-st.sidebar.button('Clear Chat Histrory',on_click=clear_chat) 
+st.sidebar.button('Clear Chat Histrory', on_click=clear_chat, type="primary") 
 
 #displays the history accordingly
 def ml_display_history(ml_display_markdown_on):
