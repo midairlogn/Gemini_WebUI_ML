@@ -62,10 +62,9 @@ ml_can_run = False
 input_password = ""
 #ml_redirect_url="http://www.bing.com/"
 
-# Initialize session state
+# Initialize session state: add 'ml_system_instruction'
 if "ml_system_instruction" not in st.session_state:
     st.session_state.ml_system_instruction = ml_config_data.get("application_data", {}).get("ml_default_system_instuction") 
-
 
 if ( ml_password == "" ) : 
     ml_need_password = False
@@ -130,15 +129,15 @@ with st.sidebar:
             st.markdown(" :red[ *Disabled !* ] ")
 
 # System Instruction: Show and Edit
-@st.dialog("System Instruction")
+@st.dialog("System Instructions")
 def edit_system_instruction():
     global model
-    st.markdown("Current System Instruction :")
+    st.markdown("Current System Instructions :")
     if (st.session_state.ml_system_instruction): 
         st.code(st.session_state.ml_system_instruction)
     else: 
         st.code("[The system instruction is empty]")
-    ml_input_system_instruction = st.text_input("Edit System Instruction :")
+    ml_input_system_instruction = st.text_input("Edit System Instructions :")
     if st.button('Submit'):
         if ml_input_system_instruction:
             st.session_state.ml_system_instruction = ml_input_system_instruction
@@ -157,7 +156,7 @@ def role_swap(user_role):
     else:
         return user_role
 
-#initialising chat.
+# Initialising chat
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=[])
     initial_prompt = mldefault_initial_prompt
