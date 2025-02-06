@@ -139,7 +139,7 @@ def edit_system_instruction():
     else: 
         st.code("[The system instruction is empty]")
     ml_input_system_instruction = st.text_input("Edit System Instruction :")
-    if st.button('Submit and Clear Chat History'):
+    if st.button('Submit'):
         if ml_input_system_instruction:
             st.session_state.ml_system_instruction = ml_input_system_instruction
             model = genai.GenerativeModel(model_name = select_model, system_instruction=st.session_state.ml_system_instruction)
