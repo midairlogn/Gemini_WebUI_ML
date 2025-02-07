@@ -197,7 +197,7 @@ ml_display_history(True)
 ml_application_version = ml_config_data.get("version")
 st.sidebar.markdown(":grey[*Version: "+ml_application_version+"*]")
 
-st.session_state.chat_session = model.start_chat()
+st.session_state.chat_session = model.start_chat( history = st.session_state.chat_session.history )
 
 #main prompt logic.
 user_prompt = st.chat_input("Message Gemini")
