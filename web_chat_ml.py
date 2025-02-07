@@ -100,10 +100,6 @@ with st.sidebar:
         model = genai.GenerativeModel(model_name = select_model, system_instruction=st.session_state.ml_system_instruction)
     else: 
         model = genai.GenerativeModel(model_name = select_model)
-    if ( select_model == 'gemini-2.0-flash-exp' ):
-        mldefault_full_opt_status = True
-    else :
-        mldefault_full_opt_status = False
 
 #side bar components : Optional Features
 with st.sidebar:
