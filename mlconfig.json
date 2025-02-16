@@ -4,12 +4,6 @@
   "author": "Midairlogn",
   "LICENSE": "MIT License",
   "project_URL": "https://github.com/midairlogn/Gemini_WebUI_ML",
-  "database": {
-    "host": "0.0.0.0",
-    "port": 6951,
-    "username": "user",
-    "password": "password"
-  },
   "application_data": {
 	  "ml_gemini_models": [
 	  "gemini-2.0-flash" ,

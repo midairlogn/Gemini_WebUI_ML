@@ -2,6 +2,7 @@
 .vs
 test_web_chat_ml.py
 test-launch.bat
+private-config-ml.json
 
 
 # Byte-compiled / optimized / DLL files
