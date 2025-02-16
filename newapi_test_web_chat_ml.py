@@ -263,10 +263,7 @@ if user_prompt:
                 # Check if the response is valid JSON and then extract the response
                 if gemini_response.json():
                     gemini_response = gemini_response.json()
-                    if (history):
-                        st.session_state.chat_session.history.append(''', protos.Content({'parts': [{'text': '''+user_prompt+'''}], 'role': 'user'}), protos.Content({'parts': [{'text': "'''+gemini_response.text+'''"}], 'role': 'model'})''')
-                    else:
-                        st.session_state.chat_session.history.append('''protos.Content({'parts': [{'text': '''+user_prompt+'''}], 'role': 'user'}), protos.Content({'parts': [{'text': "'''+gemini_response.text+'''"}], 'role': 'model'})''')
+                    st.session_state.chat_session.history.append('''protos.Content({'parts': [{'text': '''+user_prompt+'''}], 'role': 'user'}), protos.Content({'parts': [{'text': "'''+gemini_response.text+'''"}], 'role': 'model'})''')
                 else:
                         print("No data returned in the response.")
             except requests.exceptions.RequestException as e:
