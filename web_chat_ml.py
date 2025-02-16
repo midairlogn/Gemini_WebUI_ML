@@ -33,8 +33,8 @@ def read_config_from_json(filepath):
     print(f"Error：Can Not Decode: {filepath}")
     return None
 
-ml_config_file = "mlconfig.json"
-ml_config_data = read_config_from_json(ml_config_file)
+ml_config_data = read_config_from_json("mlconfig.json")
+ml_private_config_data = read_config_from_json("private-config-ml.json")
 
 # Set initial prompt
 mldefault_initial_prompt = ''' :blue-background[ **Note that** ] :grey-background[ :rainbow[ **_Gemini WebUI ML_** ] ] ( [*Gemini_WebUI_ML - GitHub*](https://github.com/midairlogn/Gemini_WebUI_ML "Gemini_WebUI_ML - GitHub") ) is developed by :grey-background[ :rainbow[ *Midairlogn* ] ] ( [*Midairlogn - GitHub*](https://github.com/midairlogn "Midairlogn - GitHub") ) .   
@@ -57,17 +57,29 @@ mldefault_token_count_status = ml_config_data.get("application_data", {}).get("m
 
 # Set password
 ml_need_password = ml_config_data.get("application_data", {}).get("ml_need_password")
-ml_password = os.getenv("CUSTOMER_PASSWORD")
+ml_current_user = ml_private_config_data.get("user_settings", {}).get("default_user")
 ml_can_run = False
 input_password = ""
 #ml_redirect_url="http://www.bing.com/"
 
+def ml_judge_password():
+    global input_password
+    global ml_current_user
+    global ml_private_config_data
+    password_correct = False
+    for ml_user in ml_private_config_data.get("user_settings", {}):
+        ml_current_user = ml_private_config_data.get("user_settings", {}).get(ml_user, {})
+        if (input_password == ml_current_user.get("password")):
+            password_correct = True
+    if (password_correct):
+        return True
+    else :
+        ml_current_user = ml_private_config_data.get("user_settings", {}).get("default_user")
+        return False
+
 # Initialize session state: add 'ml_system_instruction'
 if "ml_system_instruction" not in st.session_state:
     st.session_state.ml_system_instruction = ml_config_data.get("application_data", {}).get("ml_default_system_instuction") 
-
-if ( ml_password == "" ) : 
-    ml_need_password = False
 
 #sets the avatar for user as well as the bot
 USER_AVATAR = ml_config_data.get("application_data", {}).get("USER_AVATAR")
@@ -76,8 +88,12 @@ image_path = ml_config_data.get("application_data", {}).get("image_path")
 
 
 #private key for gemini.
-private_key = os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=private_key)
+if (ml_current_user.get("use_new_api")): 
+    # /////// working
+    print("working on it")
+else: 
+    private_key = ml_current_user.get("GOOGLE_API_KEY")
+    genai.configure(api_key=private_key)
 
 #conifgs the bar 
 st.set_page_config(
@@ -90,8 +106,7 @@ st.set_page_config(
 st.sidebar.image(image_path , width = 200)
 
 #side bar components : password
-if (ml_need_password):
-    input_password = st.sidebar.text_input("Password",type = "password" )
+input_password = st.sidebar.text_input("Password",type = "password" )
 
 #side bar components : select model
 with st.sidebar:
@@ -203,15 +218,15 @@ st.session_state.chat_session = model.start_chat( history = st.session_state.cha
 #main prompt logic.
 user_prompt = st.chat_input("Message Gemini")
 if user_prompt:
-    if (ml_need_password):
-        if (input_password == ml_password):
-            ml_can_run = True
-    else :
+    if (ml_judge_password()):
         ml_can_run = True
-
     if (ml_can_run):
         st.chat_message("user",avatar=USER_AVATAR).markdown(user_prompt)
-        gemini_response = st.session_state.chat_session.send_message(user_prompt)
+        if (ml_current_user.get("use_new_api")): 
+            #/////// working
+            print("working on it")
+        else: 
+            gemini_response = st.session_state.chat_session.send_message(user_prompt)
         with st.chat_message("assistant",avatar=BOT_AVATAR):
             if ( full_opt ):  
                 st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
