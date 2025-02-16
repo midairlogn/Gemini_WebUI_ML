@@ -254,11 +254,11 @@ if user_prompt:
         if (ml_current_user.get("use_new_api")):
             ml_edit_posts()
             try:
-                response = requests.post(ml_newapi_url, headers=ml_newapi_headers, json=ml_newapi_payload)
-                response.raise_for_status()  # Raise an exception for bad status codes (e.g., 400, 500)
+                gemini_response = requests.post(ml_newapi_url, headers=ml_newapi_headers, json=ml_newapi_payload)
+                gemini_response.raise_for_status()  # Raise an exception for bad status codes (e.g., 400, 500)
                 # Check if the response is valid JSON and then extract the response
-                if response.json():
-                    gemini_response = response.json()
+                if gemini_response.json():
+                    gemini_response = gemini_response.json()
                     if (history):
                         st.session_state.chat_session.history.append(''', protos.Content({'parts': [{'text': '''+user_prompt+'''}], 'role': 'user'}), protos.Content({'parts': [{'text': "'''+gemini_response.text+'''"}], 'role': 'model'})''')
                     else:
