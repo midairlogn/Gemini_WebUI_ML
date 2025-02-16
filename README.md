@@ -27,12 +27,8 @@ git clone https://github.com/midairlogn/Gemini_WebUI_ML.git
 
 ## Preparation : Gemini's API key
 
-To replicate the project in local host you must obtain a gemini api key from the follwing website [here](https://ai.google.dev/) and include them in the `.env` as shown in the `.env-example` .    
-
-You can create and edit the `.env` file by :   
-```
-nano .env
-```   
+To replicate the project in local host you must obtain a gemini api key from the follwing website [here](https://ai.google.dev/) and include them in the `private-config-ml.json` as shown in the `private-config-ml.example.json` .    
+  
     
 And make sure that Gemini is supported in your region .  
 
@@ -50,15 +46,8 @@ pip install -r requirements.txt
 * python-dotenv
 
 ## Password     
-To ensure safety , password has now been added . If enabled , anyone wanting to access Gemini without the right password will only get the message `Wrong Password !` in response .    
-You can set your password in `.env` as is shown in `.env.example` :       
-```
-CUSTOMER_PASSWORD = "YOUR_PASSWORD"
-```    
-To disable it , write this in `.env` :
-```
-CUSTOMER_PASSWORD = ""
-```     
+To ensure safety , password has now been added . Anyone wanting to access Gemini without the right password will only get the message `Wrong Password !` in response .    
+You can set your password in `private-config-ml.json` as is shown in `private-config-ml.example.json`       
 
 ## Launch
 
