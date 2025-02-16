@@ -93,7 +93,8 @@ if (ml_current_user.get("use_new_api")):
     print("working on it")
 else: 
     private_key = ml_current_user.get("GOOGLE_API_KEY")
-    genai.configure(api_key=private_key)
+    if (private_key):
+        genai.configure(api_key=private_key)
 
 #conifgs the bar 
 st.set_page_config(
