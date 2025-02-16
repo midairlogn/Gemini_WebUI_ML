@@ -37,6 +37,30 @@ def read_config_from_json(filepath):
 ml_config_data = read_config_from_json("mlconfig.json")
 ml_private_config_data = read_config_from_json("private-config-ml.json")
 
+# Set password
+ml_need_password = ml_config_data.get("application_data", {}).get("ml_need_password")
+ml_current_user = ml_private_config_data.get("user_settings", {}).get("default_user")
+ml_can_run = False
+input_password = ""
+#ml_redirect_url="http://www.bing.com/"
+
+# set new api posts
+def ml_edit_posts():
+    global ml_newapi_url
+    global ml_newapi_headers
+    global ml_newapi_payload
+    ml_newapi_url = ml_current_user.get("new_api_settings", {}).get("ml_newapi_url")
+    ml_newapi_Content_Type = ml_current_user.get("new_api_settings", {}).get("Content-Type")
+    ml_newapi_Authorization = ml_current_user.get("new_api_settings", {}).get("Authorization")
+    ml_newapi_headers["Content-Type"] = ml_newapi_Content_Type
+    ml_newapi_headers["Authorization"] = ml_newapi_Authorization
+    ml_newapi_payload["model"] = st.session_state.chat_session.model.model_name
+    ml_newapi_payload["messages"] = st.session_state.chat_session.history
+    ## need to revise
+    st.code(ml_newapi_url)
+    st.code(ml_newapi_headers)
+    st.code(ml_newapi_payload)
+
 # Set initial prompt
 mldefault_initial_prompt = ''' :blue-background[ **Note that** ] :grey-background[ :rainbow[ **_Gemini WebUI ML_** ] ] ( [*Gemini_WebUI_ML - GitHub*](https://github.com/midairlogn/Gemini_WebUI_ML "Gemini_WebUI_ML - GitHub") ) is developed by :grey-background[ :rainbow[ *Midairlogn* ] ] ( [*Midairlogn - GitHub*](https://github.com/midairlogn "Midairlogn - GitHub") ) .   
     **DO NOT promise *100%* stability** . So please carefully read and practice the following tips :  
@@ -48,7 +72,11 @@ mldefault_initial_prompt = ''' :blue-background[ **Note that** ] :grey-backgroun
     # :rainbow[ How can I help you today ? ]   '''
 
 # Set gemini models
-ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+if (ml_current_user.get("use_new_api")):
+#//// working
+    ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+else:
+    ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
 
 # Set optional features
 mldefault_feedback_status =  ml_config_data.get("application_data", {}).get("mldefault_feedback_status")
@@ -56,12 +84,6 @@ mldefault_full_opt_status = ml_config_data.get("application_data", {}).get("mlde
 mldefault_text_opt_status = ml_config_data.get("application_data", {}).get("mldefault_text_opt_status")
 mldefault_token_count_status = ml_config_data.get("application_data", {}).get("mldefault_token_count_status")
 
-# Set password
-ml_need_password = ml_config_data.get("application_data", {}).get("ml_need_password")
-ml_current_user = ml_private_config_data.get("user_settings", {}).get("default_user")
-ml_can_run = False
-input_password = ""
-#ml_redirect_url="http://www.bing.com/"
 
 def ml_judge_password():
     global input_password
@@ -105,24 +127,6 @@ else:
     private_key = ml_current_user.get("GOOGLE_API_KEY")
     if (private_key):
         genai.configure(api_key=private_key)
-
-# set new api posts
-def ml_edit_posts():
-    global ml_newapi_url
-    global ml_newapi_headers
-    global ml_newapi_payload
-    ml_newapi_url = ml_current_user.get("new_api_settings", {}).get("ml_newapi_url")
-    ml_newapi_Content_Type = ml_current_user.get("new_api_settings", {}).get("Content-Type")
-    ml_newapi_Authorization = ml_current_user.get("new_api_settings", {}).get("Authorization")
-    ml_newapi_headers["Content-Type"] = ml_newapi_Content_Type
-    ml_newapi_headers["Authorization"] = ml_newapi_Authorization
-    ml_newapi_payload["model"] = st.session_state.chat_session.model.model_name
-    ml_newapi_payload["messages"] = st.session_state.chat_session.history
-    ## need to revise
-    st.code(ml_newapi_url)
-    st.code(ml_newapi_headers)
-    st.code(ml_newapi_payload)
-    
 
 #conifgs the bar 
 st.set_page_config(
