@@ -45,7 +45,7 @@ input_password = ""
 #ml_redirect_url="http://www.bing.com/"
 
 # set new api posts
-def ml_edit_posts():
+def ml_edit_posts(ml_edit_posts_receive_user_message):
     global ml_newapi_url
     global ml_newapi_headers
     global ml_newapi_payload
@@ -55,8 +55,11 @@ def ml_edit_posts():
     ml_newapi_headers["Content-Type"] = ml_newapi_Content_Type
     ml_newapi_headers["Authorization"] = ml_newapi_Authorization
     ml_newapi_payload["model"] = st.session_state.chat_session.model.model_name
-    ml_newapi_payload["messages"] = st.session_state.chat_session.history
-    ## need to revise
+    ml_newapi_payload_messages_process[]
+    for message in st.session_state.chat_session.history:
+        ml_newapi_payload_messages_process.append({ "role": message.role, "content": message.parts[0].text})
+    ml_newapi_payload_messages_process.append({ "role": "user", "content": ml_edit_posts_receive_user_message)
+    ml_newapi_payload["messages"] = ml_newapi_payload_messages_process
     st.code(ml_newapi_url)
     st.code(ml_newapi_headers)
     st.code(ml_newapi_payload)
@@ -84,6 +87,28 @@ mldefault_full_opt_status = ml_config_data.get("application_data", {}).get("mlde
 mldefault_text_opt_status = ml_config_data.get("application_data", {}).get("mldefault_text_opt_status")
 mldefault_token_count_status = ml_config_data.get("application_data", {}).get("mldefault_token_count_status")
 
+def ml_set_private_key():
+    global ml_current_user
+    global ml_newapi_url
+    global ml_newapi_headers
+    global ml_newapi_payload
+    # private key for gemini.
+    if (ml_current_user.get("use_new_api")): 
+        # set new api posts
+        ml_newapi_url = ""
+        ml_newapi_headers = {
+        "Content-Type": "",
+        "Authorization": ""
+        }
+        ml_newapi_payload = {
+        "model": "",
+        "messages": [
+        ]
+        }
+    else: 
+        private_key = ml_current_user.get("GOOGLE_API_KEY")
+        if (private_key):
+            genai.configure(api_key=private_key)
 
 def ml_judge_password():
     global input_password
@@ -95,6 +120,7 @@ def ml_judge_password():
         if (input_password == ml_current_user.get("password")):
             password_correct = True
     if (password_correct):
+        ml_set_private_key()
         return True
     else :
         ml_current_user = ml_private_config_data.get("user_settings", {}).get("default_user")
@@ -109,24 +135,7 @@ USER_AVATAR = ml_config_data.get("application_data", {}).get("USER_AVATAR")
 BOT_AVATAR = ml_config_data.get("application_data", {}).get("BOT_AVATAR")
 image_path = ml_config_data.get("application_data", {}).get("image_path")
 
-
-# private key for gemini.
-if (ml_current_user.get("use_new_api")): 
-    # set new api posts
-    ml_newapi_url = ""
-    ml_newapi_headers = {
-    "Content-Type": "",
-    "Authorization": ""
-    }
-    ml_newapi_payload = {
-    "model": "",
-    "messages": [
-    ]
-    }
-else: 
-    private_key = ml_current_user.get("GOOGLE_API_KEY")
-    if (private_key):
-        genai.configure(api_key=private_key)
+ml_set_private_key()
 
 #conifgs the bar 
 st.set_page_config(
@@ -139,7 +148,7 @@ st.set_page_config(
 st.sidebar.image(image_path , width = 200)
 
 #side bar components : password
-input_password = st.sidebar.text_input("Password",type = "password" )
+input_password = st.sidebar.text_input("Password", type = "password" )
 
 #side bar components : select model
 with st.sidebar:
@@ -165,12 +174,16 @@ with st.sidebar:
             st.markdown(" :green[ *Enabled !* ] ")
         else :
             st.markdown(" :red[ *Disabled !* ] ")
-    token_count = st.toggle(":blue[ Token count ]",value = mldefault_token_count_status )
-    if ( feedback_status ):
-        if ( token_count ):
-            st.markdown(" :green[ *Enabled !* ] ")
-        else :
-            st.markdown(" :red[ *Disabled !* ] ")
+#    if (ml_current_user.get("use_new_api")):
+#        token_count = False
+#    else: 
+#        token_count = st.toggle(":blue[ Token count ]",value = mldefault_token_count_status )
+#        if ( feedback_status ):
+#            if ( token_count ):
+#                st.markdown(" :green[ *Enabled !* ] ")
+#            else :
+#                st.markdown(" :red[ *Disabled !* ] ")
+    token_count = False
 
 # System Instruction: Show and Edit
 @st.dialog("System Instructions")
@@ -256,14 +269,15 @@ if user_prompt:
     if (ml_can_run):
         st.chat_message("user",avatar=USER_AVATAR).markdown(user_prompt)
         if (ml_current_user.get("use_new_api")):
-            ml_edit_posts()
+            ml_edit_posts(user_prompt)
             try:
                 gemini_response = requests.post(ml_newapi_url, headers=ml_newapi_headers, json=ml_newapi_payload)
                 gemini_response.raise_for_status()  # Raise an exception for bad status codes (e.g., 400, 500)
                 # Check if the response is valid JSON and then extract the response
                 if gemini_response.json():
                     gemini_response = gemini_response.json()
-                    st.session_state.chat_session.history.append('''protos.Content({'parts': [{'text': '''+user_prompt+'''}], 'role': 'user'}), protos.Content({'parts': [{'text': "'''+gemini_response.text+'''"}], 'role': 'model'})''')
+                    ## to be revised
+                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': '''+user_prompt+'''}], 'role': 'user'}), protos.Content({'parts': [{'text': "'''+gemini_response.text+'''"}], 'role': 'model'})})
                 else:
                         print("No data returned in the response.")
             except requests.exceptions.RequestException as e:
