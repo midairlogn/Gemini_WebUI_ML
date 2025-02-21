@@ -55,10 +55,10 @@ def ml_edit_posts(ml_edit_posts_receive_user_message):
     ml_newapi_headers["Content-Type"] = ml_newapi_Content_Type
     ml_newapi_headers["Authorization"] = ml_newapi_Authorization
     ml_newapi_payload["model"] = st.session_state.chat_session.model.model_name
-    ml_newapi_payload_messages_process[]
+    ml_newapi_payload_messages_process = []
     for message in st.session_state.chat_session.history:
         ml_newapi_payload_messages_process.append({ "role": message.role, "content": message.parts[0].text})
-    ml_newapi_payload_messages_process.append({ "role": "user", "content": ml_edit_posts_receive_user_message)
+    ml_newapi_payload_messages_process.append({ "role": "user", "content": ml_edit_posts_receive_user_message})
     ml_newapi_payload["messages"] = ml_newapi_payload_messages_process
     st.code(ml_newapi_url)
     st.code(ml_newapi_headers)
@@ -277,7 +277,7 @@ if user_prompt:
                 if gemini_response.json():
                     gemini_response = gemini_response.json()
                     ## to be revised
-                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': '''+user_prompt+'''}], 'role': 'user'}), protos.Content({'parts': [{'text': "'''+gemini_response.text+'''"}], 'role': 'model'})})
+                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': user_prompt}], 'role': 'user'}), protos.Content({'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'})})
                 else:
                         print("No data returned in the response.")
             except requests.exceptions.RequestException as e:
