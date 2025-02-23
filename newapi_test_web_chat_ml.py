@@ -148,7 +148,7 @@ st.set_page_config(
 st.sidebar.image(image_path , width = 200)
 
 #side bar components : password
-input_password = st.sidebar.text_input("Password", type = "password" )
+input_password = st.sidebar.text_input("Password", type = "password" , on_change=ml_judge_password )
 
 #side bar components : select model
 with st.sidebar:
