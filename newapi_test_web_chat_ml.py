@@ -37,6 +37,13 @@ def read_config_from_json(filepath):
 ml_config_data = read_config_from_json("mlconfig.json")
 ml_private_config_data = read_config_from_json("private-config-ml.json")
 
+#role swap after every prompt
+def role_swap(user_role):
+    if user_role == "model":
+        return "assistant"
+    else:
+        return user_role
+
 # Set password
 ml_need_password = ml_config_data.get("application_data", {}).get("ml_need_password")
 ml_current_user = ml_private_config_data.get("user_settings", {}).get("default_user")
@@ -57,7 +64,7 @@ def ml_edit_posts(ml_edit_posts_receive_user_message):
     ml_newapi_payload["model"] = st.session_state.chat_session.model.model_name
     ml_newapi_payload_messages_process = []
     for message in st.session_state.chat_session.history:
-        ml_newapi_payload_messages_process.append({ "role": message.role, "content": message.parts[0].text})
+        ml_newapi_payload_messages_process.append({ "role": role_swap(message.role), "content": message.parts[0].text})
     ml_newapi_payload_messages_process.append({ "role": "user", "content": ml_edit_posts_receive_user_message})
     ml_newapi_payload["messages"] = ml_newapi_payload_messages_process
     st.code(ml_newapi_url)
@@ -205,13 +212,6 @@ def edit_system_instruction():
         st.rerun()
 
 st.sidebar.button('System Instruction', on_click=edit_system_instruction)
-
-#role swap after every prompt
-def role_swap(user_role):
-    if user_role == "model":
-        return "assistant"
-    else:
-        return user_role
 
 # Initialising chat
 if "chat_session" not in st.session_state:
