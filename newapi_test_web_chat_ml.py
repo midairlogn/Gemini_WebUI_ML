@@ -61,7 +61,8 @@ def ml_edit_posts(ml_edit_posts_receive_user_message):
     ml_newapi_Authorization = ml_current_user.get("new_api_settings", {}).get("Authorization")
     ml_newapi_headers["Content-Type"] = ml_newapi_Content_Type
     ml_newapi_headers["Authorization"] = ml_newapi_Authorization
-    ml_newapi_payload["model"] = st.session_state.chat_session.model.model_name
+    #ml_newapi_payload["model"] = st.session_state.chat_session.model.model_name
+    ml_newapi_payload["model"] = st.session_state.select_model
     ml_newapi_payload_messages_process = []
     for message in st.session_state.chat_session.history:
         ml_newapi_payload_messages_process.append({ "role": role_swap(message.role), "content": message.parts[0].text})
