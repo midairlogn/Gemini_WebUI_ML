@@ -182,16 +182,16 @@ with st.sidebar:
             st.markdown(" :green[ *Enabled !* ] ")
         else :
             st.markdown(" :red[ *Disabled !* ] ")
-#    if (ml_current_user.get("use_new_api")):
-#        token_count = False
-#    else: 
-#        token_count = st.toggle(":blue[ Token count ]",value = mldefault_token_count_status )
-#        if ( feedback_status ):
-#            if ( token_count ):
-#                st.markdown(" :green[ *Enabled !* ] ")
-#            else :
-#                st.markdown(" :red[ *Disabled !* ] ")
-    token_count = False
+    if (ml_current_user.get("use_new_api")):
+        token_count = False
+    else: 
+        token_count = st.toggle(":blue[ Token count ]",value = mldefault_token_count_status )
+        if ( feedback_status ):
+            if ( token_count ):
+                st.markdown(" :green[ *Enabled !* ] ")
+            else :
+                st.markdown(" :red[ *Disabled !* ] ")
+#    token_count = False
 
 # System Instruction: Show and Edit
 @st.dialog("System Instructions")
@@ -278,7 +278,12 @@ if user_prompt:
                 if gemini_response.json():
                     gemini_response = gemini_response.json()
                     ## to be revised
-                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': user_prompt}], 'role': 'user'}), protos.Content({'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'})})
+#                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': user_prompt}], 'role': 'user'}) , protos.Content({'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'})})
+                    st.session_state.chat_session.history.append({{'parts': [{'text': user_prompt}], 'role': 'user'} , {'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'}})
+#                    global gemini_response_text_ml
+#                    global gemini_response_usage_metadata_ml
+                    gemini_response_text_ml = gemini_response['choices'][0]['message']['content']
+                    gemini_response_usage_metadata_ml = gemini_response.usage
                 else:
                         print("No data returned in the response.")
             except requests.exceptions.RequestException as e:
@@ -288,19 +293,23 @@ if user_prompt:
             except Exception as e:
                 print(f"An unexpected error occurred: {e}")
         else: 
+#            global gemini_response_text_ml
+#            global gemini_response_usage_metadata_ml
             gemini_response = st.session_state.chat_session.send_message(user_prompt)
+            gemini_response_text_ml = gemini_response.text
+            gemini_response_usage_metadata_ml = gemini_response.usage_metadata
         with st.chat_message("assistant",avatar=BOT_AVATAR):
             if ( full_opt ):  
                 st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
                 st.code(gemini_response , language='markdown')
             if ( text_opt ):
                 st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :orange[ Text response code : ] ")
-                st.code(gemini_response.text , language='markdown')
+                st.code(gemini_response_text_ml , language='markdown')
             if ( token_count ):
                 st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
-                st.code(gemini_response.usage_metadata , language='markdown')
+                st.code(gemini_response_usage_metadata_ml , language='markdown')
             st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
-            st.markdown(gemini_response.text)
+            st.markdown(gemini_response_text_ml)
     else :
         st.markdown(" ## :red[ Wrong password ! ] ")
         #time.sleep(1)
