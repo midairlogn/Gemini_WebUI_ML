@@ -182,15 +182,12 @@ with st.sidebar:
             st.markdown(" :green[ *Enabled !* ] ")
         else :
             st.markdown(" :red[ *Disabled !* ] ")
-    if (ml_current_user.get("use_new_api")):
-        token_count = False
-    else: 
-        token_count = st.toggle(":blue[ Token count ]",value = mldefault_token_count_status )
-        if ( feedback_status ):
-            if ( token_count ):
-                st.markdown(" :green[ *Enabled !* ] ")
-            else :
-                st.markdown(" :red[ *Disabled !* ] ")
+    token_count = st.toggle(":blue[ Token count ]",value = mldefault_token_count_status )
+    if ( feedback_status ):
+        if ( token_count ):
+            st.markdown(" :green[ *Enabled !* ] ")
+        else :
+            st.markdown(" :red[ *Disabled !* ] ")
 #    token_count = False
 
 # System Instruction: Show and Edit
@@ -269,14 +266,20 @@ if user_prompt:
         ml_can_run = True
     if (ml_can_run):
         st.chat_message("user",avatar=USER_AVATAR).markdown(user_prompt)
+        gemini_response = {}
+        gemini_response_text_ml = {}
+        gemini_response_usage_metadata_ml = {}
         if (ml_current_user.get("use_new_api")):
             ml_edit_posts(user_prompt)
             try:
-                gemini_response = requests.post(ml_newapi_url, headers=ml_newapi_headers, json=ml_newapi_payload)
-                gemini_response.raise_for_status()  # Raise an exception for bad status codes (e.g., 400, 500)
+                gemini_response_ml = requests.post(ml_newapi_url, headers=ml_newapi_headers, json=ml_newapi_payload)
+                gemini_response_ml.raise_for_status()  # Raise an exception for bad status codes (e.g., 400, 500)
                 # Check if the response is valid JSON and then extract the response
-                if gemini_response.json():
-                    gemini_response = gemini_response.json()
+                if gemini_response_ml.json():
+                    gemini_response = gemini_response_ml.json()
+                    #gemini_response = json.dumps(gemini_response_ml.json())
+                    st.code(gemini_response_ml.json())
+                    st.code(gemini_response)
                     ## to be revised
 #                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': user_prompt}], 'role': 'user'}) , protos.Content({'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'})})
                     st.session_state.chat_session.history.append({{'parts': [{'text': user_prompt}], 'role': 'user'} , {'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'}})
