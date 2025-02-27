@@ -276,17 +276,34 @@ if user_prompt:
                 gemini_response_ml.raise_for_status()  # Raise an exception for bad status codes (e.g., 400, 500)
                 # Check if the response is valid JSON and then extract the response
                 if gemini_response_ml.json():
-                    gemini_response = gemini_response_ml.json()
-                    #gemini_response = json.dumps(gemini_response_ml.json())
+                    #gemini_response = gemini_response_ml.json()
+                    gemini_response = json.dumps(gemini_response_ml.json())
                     st.code(gemini_response_ml.json())
                     st.code(gemini_response)
                     ## to be revised
 #                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': user_prompt}], 'role': 'user'}) , protos.Content({'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'})})
                     st.session_state.chat_session.history.append({{'parts': [{'text': user_prompt}], 'role': 'user'} , {'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'}})
-#                    global gemini_response_text_ml
-#                    global gemini_response_usage_metadata_ml
                     gemini_response_text_ml = gemini_response['choices'][0]['message']['content']
                     gemini_response_usage_metadata_ml = gemini_response.usage
+                    with st.chat_message("assistant",avatar=BOT_AVATAR):
+                    if ( full_opt ):  
+                        st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
+                        st.code(gemini_response , language='markdown')
+                    if ( text_opt ):
+                        st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :orange[ Text response code : ] ")
+                        st.code(gemini_response_text_ml , language='markdown')
+                    if ( token_count ):
+                        st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
+                        st.code(gemini_response_usage_metadata_ml , language='markdown')
+                    st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
+                    st.markdown(gemini_response_text_ml)
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 else:
                         print("No data returned in the response.")
             except requests.exceptions.RequestException as e:
@@ -296,23 +313,29 @@ if user_prompt:
             except Exception as e:
                 print(f"An unexpected error occurred: {e}")
         else: 
-#            global gemini_response_text_ml
-#            global gemini_response_usage_metadata_ml
             gemini_response = st.session_state.chat_session.send_message(user_prompt)
             gemini_response_text_ml = gemini_response.text
             gemini_response_usage_metadata_ml = gemini_response.usage_metadata
-        with st.chat_message("assistant",avatar=BOT_AVATAR):
-            if ( full_opt ):  
-                st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
-                st.code(gemini_response , language='markdown')
-            if ( text_opt ):
-                st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :orange[ Text response code : ] ")
-                st.code(gemini_response_text_ml , language='markdown')
-            if ( token_count ):
-                st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
-                st.code(gemini_response_usage_metadata_ml , language='markdown')
-            st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
-            st.markdown(gemini_response_text_ml)
+            with st.chat_message("assistant",avatar=BOT_AVATAR):
+                if ( full_opt ):  
+                    st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
+                    st.code(gemini_response , language='markdown')
+                if ( text_opt ):
+                    st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :orange[ Text response code : ] ")
+                    st.code(gemini_response_text_ml , language='markdown')
+                if ( token_count ):
+                    st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
+                    st.code(gemini_response_usage_metadata_ml , language='markdown')
+                st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
+                st.markdown(gemini_response_text_ml)
+        
+        
+        
+        
+        
+        
+        
+
     else :
         st.markdown(" ## :red[ Wrong password ! ] ")
         #time.sleep(1)
