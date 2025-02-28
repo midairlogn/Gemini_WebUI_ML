@@ -61,15 +61,14 @@ def ml_edit_posts(ml_edit_posts_receive_user_message):
     ml_newapi_Authorization = ml_current_user.get("new_api_settings", {}).get("Authorization")
     ml_newapi_headers["Content-Type"] = ml_newapi_Content_Type
     ml_newapi_headers["Authorization"] = ml_newapi_Authorization
-    #ml_newapi_payload["model"] = st.session_state.chat_session.model.model_name
     ml_newapi_payload["model"] = st.session_state.select_model
     ml_newapi_payload_messages_process = []
+    if (st.session_state.ml_system_instruction): 
+        ml_newapi_payload_messages_process.append({ "role": "system", "content": st.session_state.ml_system_instruction)
     for message in st.session_state.chat_session.history:
         ml_newapi_payload_messages_process.append({ "role": role_swap(message.role), "content": message.parts[0].text})
     ml_newapi_payload_messages_process.append({ "role": "user", "content": ml_edit_posts_receive_user_message})
     ml_newapi_payload["messages"] = ml_newapi_payload_messages_process
-    st.code(ml_newapi_url)
-    st.code(ml_newapi_headers)
     st.code(ml_newapi_payload)
 
 # Set initial prompt
@@ -188,7 +187,6 @@ with st.sidebar:
             st.markdown(" :green[ *Enabled !* ] ")
         else :
             st.markdown(" :red[ *Disabled !* ] ")
-#    token_count = False
 
 # System Instruction: Show and Edit
 @st.dialog("System Instructions")
@@ -266,9 +264,6 @@ if user_prompt:
         ml_can_run = True
     if (ml_can_run):
         st.chat_message("user",avatar=USER_AVATAR).markdown(user_prompt)
-        gemini_response = {}
-        gemini_response_text_ml = {}
-        gemini_response_usage_metadata_ml = {}
         if (ml_current_user.get("use_new_api")):
             ml_edit_posts(user_prompt)
             try:
@@ -276,15 +271,14 @@ if user_prompt:
                 gemini_response_ml.raise_for_status()  # Raise an exception for bad status codes (e.g., 400, 500)
                 # Check if the response is valid JSON and then extract the response
                 if gemini_response_ml.json():
-                    #gemini_response = gemini_response_ml.json()
-                    gemini_response = json.dumps(gemini_response_ml.json())
-                    st.code(gemini_response_ml.json())
+                    gemini_response = gemini_response_ml.json()
+                    #gemini_response = json.dumps(gemini_response_ml.json())
                     st.code(gemini_response)
-                    ## to be revised
-#                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': user_prompt}], 'role': 'user'}) , protos.Content({'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'})})
-                    st.session_state.chat_session.history.append({{'parts': [{'text': user_prompt}], 'role': 'user'} , {'parts': [{'text': gemini_response['choices'][0]['message']['content']}], 'role': 'model'}})
                     gemini_response_text_ml = gemini_response['choices'][0]['message']['content']
                     gemini_response_usage_metadata_ml = gemini_response.usage
+                    ## to be revised
+#                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': user_prompt}], 'role': 'user'}) , protos.Content({'parts': [{'text': gemini_response_text_ml}], 'role': 'model'})})
+                    st.session_state.chat_session.history.append({{'parts': [{'text': user_prompt}], 'role': 'user'} , {'parts': [{'text': gemini_response_text_ml}], 'role': 'model'}})
                     with st.chat_message("assistant",avatar=BOT_AVATAR):
                     if ( full_opt ):  
                         st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
@@ -297,13 +291,6 @@ if user_prompt:
                         st.code(gemini_response_usage_metadata_ml , language='markdown')
                     st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
                     st.markdown(gemini_response_text_ml)
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                 else:
                         print("No data returned in the response.")
             except requests.exceptions.RequestException as e:
@@ -328,14 +315,6 @@ if user_prompt:
                     st.code(gemini_response_usage_metadata_ml , language='markdown')
                 st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
                 st.markdown(gemini_response_text_ml)
-        
-        
-        
-        
-        
-        
-        
-
     else :
         st.markdown(" ## :red[ Wrong password ! ] ")
         #time.sleep(1)
