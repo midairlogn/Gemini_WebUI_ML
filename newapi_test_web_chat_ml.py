@@ -64,7 +64,7 @@ def ml_edit_posts(ml_edit_posts_receive_user_message):
     ml_newapi_payload["model"] = st.session_state.select_model
     ml_newapi_payload_messages_process = []
     if (st.session_state.ml_system_instruction): 
-        ml_newapi_payload_messages_process.append({ "role": "system", "content": st.session_state.ml_system_instruction)
+        ml_newapi_payload_messages_process.append({ "role": "system", "content": st.session_state.ml_system_instruction})
     for message in st.session_state.chat_session.history:
         ml_newapi_payload_messages_process.append({ "role": role_swap(message.role), "content": message.parts[0].text})
     ml_newapi_payload_messages_process.append({ "role": "user", "content": ml_edit_posts_receive_user_message})
@@ -280,17 +280,17 @@ if user_prompt:
 #                    st.session_state.chat_session.history.append({protos.Content({'parts': [{'text': user_prompt}], 'role': 'user'}) , protos.Content({'parts': [{'text': gemini_response_text_ml}], 'role': 'model'})})
                     st.session_state.chat_session.history.append({{'parts': [{'text': user_prompt}], 'role': 'user'} , {'parts': [{'text': gemini_response_text_ml}], 'role': 'model'}})
                     with st.chat_message("assistant",avatar=BOT_AVATAR):
-                    if ( full_opt ):  
-                        st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
-                        st.code(gemini_response , language='markdown')
-                    if ( text_opt ):
-                        st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :orange[ Text response code : ] ")
-                        st.code(gemini_response_text_ml , language='markdown')
-                    if ( token_count ):
-                        st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
-                        st.code(gemini_response_usage_metadata_ml , language='markdown')
-                    st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
-                    st.markdown(gemini_response_text_ml)
+                        if ( full_opt ):  
+                            st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :violet[ Full response code : ] ")
+                            st.code(gemini_response , language='markdown')
+                        if ( text_opt ):
+                            st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :orange[ Text response code : ] ")
+                            st.code(gemini_response_text_ml , language='markdown')
+                        if ( token_count ):
+                            st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
+                            st.code(gemini_response_usage_metadata_ml , language='markdown')
+                        st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
+                        st.markdown(gemini_response_text_ml)
                 else:
                         print("No data returned in the response.")
             except requests.exceptions.RequestException as e:
