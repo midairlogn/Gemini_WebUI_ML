@@ -13,8 +13,8 @@
 		  "#GOOGLE_API_KEY": "[set your api key]",
 		  "GOOGLE_API_KEY": "",
 		  "new_api_settings": {
-			  "#ml_newapi_url": "[set the url to your newapi]",
-			  "ml_newapi_url": "",
+			  "#ml_newapi_chat_url": "[set the url to your newapi]",
+			  "ml_newapi_chat_url": "",
 			  "Content-Type": "application/json",
 			  "#Authorization": "[set the Authorization to your newapi]",
 			  "Authorization": ""
