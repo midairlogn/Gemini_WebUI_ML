@@ -1,24 +1,29 @@
 {
-  "application_name": "Gemini_WebUI_ML",
-  "author": "Midairlogn",
-  "LICENSE": "MIT License",
-  "project_URL": "https://github.com/midairlogn/Gemini_WebUI_ML",
-  "user_settings": {
-	  "default_user": {
-		  "user_name": "default",
-		  "#password": "[set your password]",
-		  "password": "",
-		  "user_descriptions": "default user",
-		  "use_new_api": false,
-		  "#GOOGLE_API_KEY": "[set your api key]",
-		  "GOOGLE_API_KEY": "",
-		  "new_api_settings": {
-			  "#ml_newapi_chat_url": "[set the url to your newapi]",
-			  "ml_newapi_chat_url": "",
-			  "Content-Type": "application/json",
-			  "#Authorization": "[set the Authorization to your newapi]",
-			  "Authorization": ""
-		  }
-	  }
-  }
+	"application_name": "Gemini_WebUI_ML",
+	"author": "Midairlogn",
+	"LICENSE": "MIT License",
+	"project_URL": "https://github.com/midairlogn/Gemini_WebUI_ML",
+	"user_settings": {
+		"default_user": {
+			"user_name": "default",
+			"#password": "[set your password]",
+			"password": "",
+			"user_descriptions": "default user",
+			"user_models": [
+				"gemini-2.0-flash" ,
+				"gemini-2.0-pro-exp-02-05",
+				"gemini-2.0-flash-thinking-exp-01-21"
+				],
+			"use_new_api": false,
+			"#GOOGLE_API_KEY": "[set your api key]",
+			"GOOGLE_API_KEY": "",
+			"new_api_settings": {
+				"#ml_newapi_chat_url": "[set the url to your newapi]",
+				"ml_newapi_chat_url": "",
+				"Content-Type": "application/json",
+				"#Authorization": "[set the Authorization to your newapi]",
+				"Authorization": ""
+			}
+		}
+	}
 }
