@@ -75,9 +75,9 @@ def ml_set_gemini_models():
     if (ml_current_user.get("use_new_api")):
     #//// working
         if "user_models" not in ml_current_user:
-            ml_gemini_models = ml_current_user.get("user_models", [])
+            ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
         else:
-            ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])  
+            ml_gemini_models = ml_current_user.get("user_models", [])
         #ml_gemini_models = ml_current_user.get("user_models", [])
     else:
         ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
@@ -126,7 +126,7 @@ def ml_judge_password():
 def ml_password_on_change():
     ml_judge_password()
     ml_set_gemini_models()
-    st.rerun()
+    #st.rerun()
 
 # Initialize session state: add 'ml_system_instruction'
 if "ml_system_instruction" not in st.session_state:
