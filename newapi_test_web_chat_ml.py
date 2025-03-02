@@ -61,13 +61,6 @@ mldefault_initial_prompt = ''' :blue-background[ **Note that** ] :grey-backgroun
     
     # :rainbow[ How can I help you today ? ]   '''
 
-# Set gemini models
-if (ml_current_user.get("use_new_api")):
-#//// working
-    ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-else:
-    ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-
 # Set optional features
 mldefault_feedback_status =  ml_config_data.get("application_data", {}).get("mldefault_feedback_status")
 mldefault_full_opt_status = ml_config_data.get("application_data", {}).get("mldefault_full_opt_status")
@@ -97,6 +90,19 @@ def ml_set_private_key():
         if (private_key):
             genai.configure(api_key=private_key)
 
+# Set gemini models
+def ml_set_gemini_models():
+    if (ml_current_user.get("use_new_api")):
+    #//// working
+        if "user_models" in ml_current_user:
+            ml_gemini_models = ml_current_user.get("user_models", [])
+        else:
+            ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])  
+    else:
+        ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+
+ml_set_gemini_models()
+
 def ml_judge_password():
     global input_password
     global ml_current_user
@@ -112,6 +118,11 @@ def ml_judge_password():
     else :
         ml_current_user = ml_private_config_data.get("user_settings", {}).get("default_user")
         return False
+
+def ml_password_on_change():
+    ml_judge_password()
+    ml_set_gemini_models()
+    st.rerun()
 
 # Initialize session state: add 'ml_system_instruction'
 if "ml_system_instruction" not in st.session_state:
@@ -135,7 +146,7 @@ st.set_page_config(
 st.sidebar.image(image_path , width = 200)
 
 #side bar components : password
-input_password = st.sidebar.text_input("Password", type = "password" , on_change=ml_judge_password )
+input_password = st.sidebar.text_input("Password", type = "password" , on_change=ml_password_on_change )
 
 #side bar components : select model
 with st.sidebar:
@@ -255,6 +266,7 @@ def ml_edit_posts(ml_edit_posts_receive_user_message):
         ml_newapi_payload_messages_process.append({ "role": role_swap(message.role), "content": message.parts[0].text})
     ml_newapi_payload_messages_process.append({ "role": "user", "content": ml_edit_posts_receive_user_message})
     ml_newapi_payload["messages"] = ml_newapi_payload_messages_process
+    #st.code(ml_newapi_payload)
 
 #main prompt logic.
 user_prompt = st.chat_input("Message Gemini")
@@ -271,7 +283,6 @@ if user_prompt:
                 # Check if the response is valid JSON and then extract the response
                 if gemini_response_ml.json():
                     gemini_response = gemini_response_ml.json()
-                    st.code(gemini_response)
                     gemini_response_text_ml = gemini_response['choices'][0]['message']['content']
                     gemini_response_usage_ml = gemini_response['usage']
                     ml_newapi_chat_history_process = st.session_state.chat_session.history
