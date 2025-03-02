@@ -67,6 +67,23 @@ mldefault_full_opt_status = ml_config_data.get("application_data", {}).get("mlde
 mldefault_text_opt_status = ml_config_data.get("application_data", {}).get("mldefault_text_opt_status")
 mldefault_token_count_status = ml_config_data.get("application_data", {}).get("mldefault_token_count_status")
 
+#initialize models
+ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+
+# Set gemini models
+def ml_set_gemini_models():
+    if (ml_current_user.get("use_new_api")):
+    #//// working
+        if "user_models" not in ml_current_user:
+            ml_gemini_models = ml_current_user.get("user_models", [])
+        else:
+            ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])  
+        #ml_gemini_models = ml_current_user.get("user_models", [])
+    else:
+        ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+
+ml_set_gemini_models()
+
 def ml_set_private_key():
     global ml_current_user
     global ml_newapi_chat_url
@@ -89,19 +106,6 @@ def ml_set_private_key():
         private_key = ml_current_user.get("GOOGLE_API_KEY")
         if (private_key):
             genai.configure(api_key=private_key)
-
-# Set gemini models
-def ml_set_gemini_models():
-    if (ml_current_user.get("use_new_api")):
-    #//// working
-        if "user_models" in ml_current_user:
-            ml_gemini_models = ml_current_user.get("user_models", [])
-        else:
-            ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])  
-    else:
-        ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-
-ml_set_gemini_models()
 
 def ml_judge_password():
     global input_password
