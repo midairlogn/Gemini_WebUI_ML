@@ -303,6 +303,13 @@ if user_prompt:
                         st.markdown(gemini_response_text_ml)
                 else:
                         print("No data returned in the response.")
+            except requests.exceptions.HTTPError as e:
+                if e.response.status_code == 403:  # Handle 403 Forbidden specifically
+                    print(f"Forbidden (403) error: {e}")
+                    # Take specific action for 403 errors, like checking credentials
+                    # ... your 403 handling code ...
+                else:
+                    print(f"HTTP error occurred: {e}") # Handles other HTTP errors like 400, 404, 500, etc.
             except requests.exceptions.RequestException as e:
                 print(f"An error occurred: {e}")
             except ValueError as e:
