@@ -67,20 +67,35 @@ mldefault_full_opt_status = ml_config_data.get("application_data", {}).get("mlde
 mldefault_text_opt_status = ml_config_data.get("application_data", {}).get("mldefault_text_opt_status")
 mldefault_token_count_status = ml_config_data.get("application_data", {}).get("mldefault_token_count_status")
 
+#conifgs the bar 
+st.set_page_config(
+    page_title = "Gemini WebUI ML",
+    page_icon=":sparkle",
+    layout="centered"
+)
+
 #initialize models
-ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+#ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+if "ml_gemini_models" not in st.session_state:
+    st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
 
 # Set gemini models
 def ml_set_gemini_models():
-    if (ml_current_user.get("use_new_api")):
+    global ml_config_data
+    global ml_current_user
+    if ml_current_user.get("use_new_api"):
     #//// working
         if "user_models" not in ml_current_user:
-            ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+            #ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+            st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
         else:
-            ml_gemini_models = ml_current_user.get("user_models", [])
+            #ml_gemini_models = ml_current_user.get("user_models", [])
+            st.session_state.ml_gemini_models = ml_current_user.get("user_models", [])
+            st.code("user_models")
         #ml_gemini_models = ml_current_user.get("user_models", [])
     else:
-        ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+        #ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+        st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
 
 ml_set_gemini_models()
 
@@ -126,7 +141,7 @@ def ml_judge_password():
 def ml_password_on_change():
     ml_judge_password()
     ml_set_gemini_models()
-    #st.rerun()
+    st.code(st.session_state.ml_gemini_models)
 
 # Initialize session state: add 'ml_system_instruction'
 if "ml_system_instruction" not in st.session_state:
@@ -139,13 +154,6 @@ image_path = ml_config_data.get("application_data", {}).get("image_path")
 
 ml_set_private_key()
 
-#conifgs the bar 
-st.set_page_config(
-    page_title = "Gemini WebUI ML",
-    page_icon=":sparkle",
-    layout="centered"
-)
-
 #side bar components : Gemini Image
 st.sidebar.image(image_path , width = 200)
 
@@ -154,7 +162,8 @@ input_password = st.sidebar.text_input("Password", type = "password" , on_change
 
 #side bar components : select model
 with st.sidebar:
-    select_model = st.sidebar.selectbox('Choose a Model' , ml_gemini_models , key='select_model')
+    #select_model = st.sidebar.selectbox('Choose a Model' , ml_gemini_models , key='select_model')
+    select_model = st.sidebar.selectbox('Choose a Model' , st.session_state.ml_gemini_models , key='select_model')
     if st.session_state.ml_system_instruction:
         model = genai.GenerativeModel(model_name = select_model, system_instruction=st.session_state.ml_system_instruction)
     else: 
@@ -306,24 +315,49 @@ if user_prompt:
                         st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
                         st.markdown(gemini_response_text_ml)
                 else:
-                        print("No data returned in the response.")
+                    st.code(user_prompt)
+                    with st.chat_message("assistant",avatar=BOT_AVATAR):
+                        st.markdown(" ## :red[ Error: ] ")
+                        st.code("No data returned in the response.")
+                        st.text("No data returned in the response.")
+                    print("No data returned in the response.")
             except requests.exceptions.HTTPError as e:
                 if e.response.status_code == 403:  # Handle 403 Forbidden specifically
-                    st.code(f"Forbidden (403) error: {e}")
+                    st.code(user_prompt)
+                    with st.chat_message("assistant",avatar=BOT_AVATAR):
+                        st.markdown(" ## :red[ Error: ] ")
+                        st.code(f"Forbidden (403) error: {e}")
+                        st.text(f"Forbidden (403) error: {e}")
                     print(f"Forbidden (403) error: {e}")
                     # Take specific action for 403 errors, like checking credentials
                     # ... your 403 handling code ...
                 else:
-                    st.code(f"HTTP error occurred: {e}")
+                    st.code(user_prompt)
+                    with st.chat_message("assistant",avatar=BOT_AVATAR):
+                        st.markdown(" ## :red[ Error: ] ")
+                        st.code(f"HTTP error occurred: {e}")
+                        st.text(f"HTTP error occurred: {e}")
                     print(f"HTTP error occurred: {e}") # Handles other HTTP errors like 400, 404, 500, etc.
             except requests.exceptions.RequestException as e:
-                st.code(f"An error occurred: {e}")
+                st.code(user_prompt)
+                with st.chat_message("assistant",avatar=BOT_AVATAR):
+                    st.markdown(" ## :red[ Error: ] ")
+                    st.code(f"An error occurred: {e}")
+                    st.text(f"An error occurred: {e}")
                 print(f"An error occurred: {e}")
             except ValueError as e:
-                st.code(f"Invalid JSON response: {e}")
+                st.code(user_prompt)
+                with st.chat_message("assistant",avatar=BOT_AVATAR):
+                    st.markdown(" ## :red[ Error: ] ")
+                    st.code(f"Invalid JSON response: {e}")
+                    st.text(f"Invalid JSON response: {e}")
                 print(f"Invalid JSON response: {e}")
             except Exception as e:
-                st.code(f"An unexpected error occurred: {e}")
+                st.code(user_prompt)
+                with st.chat_message("assistant",avatar=BOT_AVATAR):
+                    st.markdown(" ## :red[ Error: ] ")
+                    st.code(f"An unexpected error occurred: {e}")
+                    st.text(f"An unexpected error occurred: {e}")            
                 print(f"An unexpected error occurred: {e}")
         else: 
             gemini_response = st.session_state.chat_session.send_message(user_prompt)
@@ -342,6 +376,12 @@ if user_prompt:
                 st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
                 st.markdown(gemini_response_text_ml)
     else :
-        st.markdown(" ## :red[ Wrong password ! ] ")
+        with st.chat_message("user",avatar=USER_AVATAR):
+            st.markdown(user_prompt)
+            st.code(user_prompt)
+        with st.chat_message("assistant",avatar=BOT_AVATAR):
+            st.markdown(" ## :red[ Error: ] ")
+            st.code("Wrong password !")
+            st.markdown(" :red[ Wrong password ! ] ")
         #time.sleep(1)
         #webbrowser.open_new_tab(ml_redirect_url)
