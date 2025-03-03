@@ -74,31 +74,6 @@ st.set_page_config(
     layout="centered"
 )
 
-#initialize models
-#ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-if "ml_gemini_models" not in st.session_state:
-    st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-
-# Set gemini models
-def ml_set_gemini_models():
-    global ml_config_data
-    global ml_current_user
-    if ml_current_user.get("use_new_api"):
-    #//// working
-        if "user_models" not in ml_current_user:
-            #ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-            st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-        else:
-            #ml_gemini_models = ml_current_user.get("user_models", [])
-            st.session_state.ml_gemini_models = ml_current_user.get("user_models", [])
-            st.code("user_models")
-        #ml_gemini_models = ml_current_user.get("user_models", [])
-    else:
-        #ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-        st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
-
-ml_set_gemini_models()
-
 def ml_set_private_key():
     global ml_current_user
     global ml_newapi_chat_url
@@ -128,9 +103,10 @@ def ml_judge_password():
     global ml_private_config_data
     password_correct = False
     for ml_user in ml_private_config_data.get("user_settings", {}):
-        ml_current_user = ml_private_config_data.get("user_settings", {}).get(ml_user, {})
-        if (input_password == ml_current_user.get("password")):
+        ml_current_user_process = ml_private_config_data.get("user_settings", {}).get(ml_user, {})
+        if (input_password == ml_current_user_process.get("password")):
             password_correct = True
+            ml_current_user = ml_private_config_data.get("user_settings", {}).get(ml_user, {})
     if (password_correct):
         ml_set_private_key()
         return True
@@ -138,10 +114,39 @@ def ml_judge_password():
         ml_current_user = ml_private_config_data.get("user_settings", {}).get("default_user")
         return False
 
+#initialize models
+#ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+if "ml_gemini_models" not in st.session_state:
+    st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+
+# Set gemini models
+def ml_set_gemini_models():
+    global ml_config_data
+    global ml_current_user
+#    if ml_current_user.get("use_new_api"):
+    #//// working
+#        if "user_models" not in ml_current_user:
+            #ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+#            st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+#        else:
+#            #ml_gemini_models = ml_current_user.get("user_models", [])
+#            st.session_state.ml_gemini_models = ml_current_user.get("user_models", [])
+#            st.code("user_models")
+        #ml_gemini_models = ml_current_user.get("user_models", [])
+#    else:
+        #ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+#        st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+    if "private_models" not in ml_private_config_data:
+        st.session_state.ml_gemini_models = ml_config_data.get("application_data", {}).get("ml_gemini_models", [])
+    else:
+        st.session_state.ml_gemini_models = ml_private_config_data.get("private_models", [])
+
+ml_set_gemini_models()
+
 def ml_password_on_change():
     ml_judge_password()
     ml_set_gemini_models()
-    st.code(st.session_state.ml_gemini_models)
+    #st.code(st.session_state.ml_gemini_models)
 
 # Initialize session state: add 'ml_system_instruction'
 if "ml_system_instruction" not in st.session_state:
