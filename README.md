@@ -78,8 +78,10 @@ Replace `6951` with any port you want this programme to run on .
 - [x] gemini-1.5-pro ( *recommended* )
 - [x] gemini-1.5-flash-8b
 - [x] gemini-1.0-pro
+- [x] Support [*New API*](https://github.com/Calcium-Ion/new-api)    
 - [x] And many more ( explore for yourself )
-> *Note that:*  You can add other models by editing `mlconfig.json`: `"application_data"`: `"ml_gemini_models"`    
+> *Note that:*  You can add other models by editing `private-config-ml.json.json`: `"private_models"`. Also, you can add other models by editing `mlconfig.json`: `"application_data"`: `"ml_gemini_models"`    
+**Priority:** `private-config-ml.json.json`: `"private_models"` > `mlconfig.json`: `"application_data"`: `"ml_gemini_models"`    
 
 ## Supported input
 - [x] text ( including *System Instructions* )
