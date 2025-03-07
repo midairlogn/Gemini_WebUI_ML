@@ -198,7 +198,7 @@ with st.sidebar:
             st.markdown(" :red[ *Disabled !* ] ")
 
 # System Instruction: Show and Edit
-@st.dialog("System Instructions")
+@st.dialog("System Instructions", width="large")
 def edit_system_instruction():
     global model
     st.markdown("Current System Instructions :")
@@ -206,7 +206,8 @@ def edit_system_instruction():
         st.code(st.session_state.ml_system_instruction)
     else: 
         st.code("[The system instruction is empty]")
-    ml_input_system_instruction = st.text_input("Edit System Instructions :")
+    ml_input_system_instruction = st.text_area("Edit System Instructions :", value = st.session_state.ml_system_instruction)
+    st.write(f"Total characters: {len(ml_input_system_instruction)}")
     if st.button('Submit'):
         if ml_input_system_instruction:
             st.session_state.ml_system_instruction = ml_input_system_instruction
