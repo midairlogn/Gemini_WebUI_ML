@@ -254,7 +254,7 @@ def ml_display_history(ml_display_markdown_on):
     for message in st.session_state.chat_session.history:
         with st.chat_message(role_swap(message.role),avatar=BOT_AVATAR if message.role == "model" else USER_AVATAR):
             if ml_display_markdown_on:
-                st.markdown(message.parts[0].text)
+                st.markdown(message.parts[0].text, unsafe_allow_html = True)
             else :
                 st.code(message.parts[0].text)
 
@@ -293,7 +293,7 @@ if user_prompt:
     if (ml_judge_password()):
         ml_can_run = True
     if (ml_can_run):
-        st.chat_message("user",avatar=USER_AVATAR).markdown(user_prompt)
+        st.chat_message("user",avatar=USER_AVATAR).markdown(user_prompt, unsafe_allow_html = True)
         if (ml_current_user.get("use_new_api")):
             ml_edit_posts(user_prompt)
             try:
@@ -319,7 +319,7 @@ if user_prompt:
                             st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
                             st.code(gemini_response_usage_ml , language='markdown')
                         st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
-                        st.markdown(gemini_response_text_ml)
+                        st.markdown(gemini_response_text_ml, unsafe_allow_html = True)
                 else:
                     st.code(user_prompt)
                     with st.chat_message("assistant",avatar=BOT_AVATAR):
@@ -380,7 +380,7 @@ if user_prompt:
                     st.markdown(" :grey-background[ :rainbow[ *Optional Features :* ] ] :blue[ Token count : ] ")
                     st.code(gemini_response_usage_ml , language='markdown')
                 st.markdown(" :grey-background[ :rainbow[ Gemini's **text** feedback ( *Markdown On* ) ] ] ")
-                st.markdown(gemini_response_text_ml)
+                st.markdown(gemini_response_text_ml, unsafe_allow_html = True)
     else :
         with st.chat_message("user",avatar=USER_AVATAR):
             st.markdown(user_prompt)
