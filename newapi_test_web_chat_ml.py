@@ -383,7 +383,7 @@ if user_prompt:
                 st.markdown(gemini_response_text_ml, unsafe_allow_html = True)
     else :
         with st.chat_message("user",avatar=USER_AVATAR):
-            st.markdown(user_prompt)
+            st.markdown(user_prompt, unsafe_allow_html = True)
             st.code(user_prompt)
         with st.chat_message("assistant",avatar=BOT_AVATAR):
             st.markdown(" ## :red[ Error: ] ")
