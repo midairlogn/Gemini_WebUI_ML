@@ -1,6 +1,6 @@
 # ✨Gemini-WebUI-ML✨
 
-![Gemini-logo](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/Google-Gemini-AI-Logo.png)
+![Gemini-logo](Google-Gemini-AI-Logo.png)
 
 Edited and polished by [*Midairlogn*](https://github.com/midairlogn) .
 
@@ -10,9 +10,9 @@ Through the seamless integration of Gemini's API key, the chatbot boasts an unpa
 
 ## Screenshots
 
-![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot1.png)
+![Screenshot](screenshots/screenshot1.png)
 
-![Screenshot](https://raw.githubusercontent.com/midairlogn/Gemini_WebUI_ML/main/screenshots/screenshot2.png)
+![Screenshot](screenshots/screenshot2.png)
 
 ## Some tips
 * Please clear chat history every time you exit this page or choose a new model to start a new conversation .    
