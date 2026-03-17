@@ -3,6 +3,7 @@
 	"author": "Midairlogn",
 	"LICENSE": "MIT License",
 	"project_URL": "https://github.com/midairlogn/Gemini_WebUI_ML",
+	"print_record": true,
 	"private_models": [
 	"gemini-2.0-flash" ,
 	"gemini-2.0-pro-exp-02-05",
