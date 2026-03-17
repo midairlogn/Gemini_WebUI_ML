@@ -1,5 +1,7 @@
 # ✨Gemini-WebUI-ML✨
 
+**Note that this is the `dev` branch, and the code here might be broken and unstable. Please switch to the `main` branch for the stable version.**
+
 ![Gemini-logo](Google-Gemini-AI-Logo.png)
 
 Edited and polished by [*Midairlogn*](https://github.com/midairlogn) .
